@@ -13,8 +13,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="lib/leaflet.min.css">
-<script src="lib/leaflet.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" crossorigin="anonymous"></script>
+<script>window.__GF_L = window.L;</script><!-- capture Leaflet before host injection overwrites L -->
 <style>
 /* ═══ DESIGN SYSTEM ═══ */
 :root {
@@ -686,6 +687,8 @@ a{color:var(--cyan);text-decoration:none}
 <!-- APP -->
 <script>
 'use strict';
+// Restore Leaflet — GoDaddy inline injection can overwrite window.L between head and DOMContentLoaded
+if (window.__GF_L && typeof window.__GF_L.map === 'function') window.L = window.__GF_L;
 
 // ── HELPERS ──
 function getAllLangs(){return typeof LANGUAGE_DATABASE!=='undefined'?Object.values(LANGUAGE_DATABASE):[]}
