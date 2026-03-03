@@ -152,15 +152,15 @@ a{color:var(--cyan);text-decoration:none}
 
 .map-legend{
   position:fixed;bottom:70px;right:12px;z-index:500;
-  background:rgba(13,13,24,0.90);backdrop-filter:blur(12px);
+  background:rgba(13,13,24,0.92);backdrop-filter:blur(14px);
   border:1px solid var(--border2);border-radius:var(--r-lg);
-  padding:10px 12px;min-width:130px;max-height:260px;overflow-y:auto;
-  font-size:11px;
+  padding:12px 14px;min-width:148px;max-height:280px;overflow-y:auto;
+  font-size:12px;
 }
-[data-theme="light"] .map-legend{background:rgba(255,255,255,0.90)}
-.leg-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-low);margin-bottom:7px}
-.leg-row{display:flex;align-items:center;gap:6px;color:var(--ink-mid);margin-bottom:4px}
-.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+[data-theme="light"] .map-legend{background:rgba(255,255,255,0.92)}
+.leg-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-low);margin-bottom:8px}
+.leg-row{display:flex;align-items:center;gap:8px;color:var(--ink);margin-bottom:5px}
+.leg-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(255,255,255,0.35);box-shadow:0 0 4px rgba(0,0,0,.5)}
 
 /* Leaflet popup */
 .leaflet-popup-content-wrapper{background:var(--raised)!important;border:1px solid var(--border2)!important;border-radius:var(--r-lg)!important;box-shadow:0 8px 24px rgba(0,0,0,.6)!important;color:var(--ink)!important}
@@ -743,7 +743,7 @@ function initMap(){
     console.log('[GF] Map created. Container size:', leafletMap.getSize());
     L.control.zoom({position:'bottomright'}).addTo(leafletMap);
     L.control.attribution({position:'bottomright',prefix:false}).addTo(leafletMap);
-    darkTiles=L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com">CARTO</a>',maxZoom:18});
+    darkTiles=L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_matter/{z}/{x}/{y}{r}.png',{attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com">CARTO</a>',maxZoom:18});
     lightTiles=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com">CARTO</a>',maxZoom:18});
     const isDark=document.documentElement.getAttribute('data-theme')!=='light';
     (isDark?darkTiles:lightTiles).addTo(leafletMap);
@@ -835,9 +835,11 @@ function renderMarkers(){
   document.getElementById('resetBtn').style.display=hasFilter?'block':'none';
   langs.forEach(lang=>{
     if(!lang.lat||!lang.lon)return;
-    const r=Math.max(4,Math.min(13,Math.log10(lang.totalSpeakers||lang.l1Speakers||1000)*2));
+    const r=Math.max(5,Math.min(14,Math.log10(lang.totalSpeakers||lang.l1Speakers||1000)*2));
     const col=getMarkerColor(lang);
-    const m=L.circleMarker([lang.lat,lang.lon],{radius:r,fillColor:col,color:col,weight:1,opacity:.8,fillOpacity:.45,bubblingMouseEvents:false});
+    const m=L.circleMarker([lang.lat,lang.lon],{radius:r,fillColor:col,color:'rgba(255,255,255,0.55)',weight:1.5,opacity:1,fillOpacity:.85,bubblingMouseEvents:false});
+    m.on('mouseover',function(){this.setRadius(r+3);this.setStyle({fillOpacity:1,weight:2});});
+    m.on('mouseout',function(){this.setRadius(r);this.setStyle({fillOpacity:.85,weight:1.5});});
     m.on('click',()=>openDetail(lang.id));
     m.bindTooltip(`<strong>${lang.name}</strong><br><span style="font-size:10px;color:#aaa">${getFamName(lang.family)}</span>`,{sticky:true,className:'',offset:[0,-4]});
     m.addTo(leafletMap);
