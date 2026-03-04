@@ -8,7 +8,7 @@
 <meta name="description" content="GlossaForge — Interactive world language map. Explore 500+ languages by family, typology, and endangerment.">
 <meta name="theme-color" content="#00d4ff">
 <title>GlossaForge — World Language Map</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230d0d18'/><circle cx='16' cy='16' r='10' fill='none' stroke='%2300d4ff' stroke-width='1.5'/><ellipse cx='16' cy='16' rx='5' ry='10' fill='none' stroke='%2300d4ff' stroke-width='1.2'/><line x1='6' y1='16' x2='26' y2='16' stroke='%2300d4ff' stroke-width='1.2'/><line x1='7.5' y1='11' x2='24.5' y2='11' stroke='%2300d4ff' stroke-width='1'/><line x1='7.5' y1='21' x2='24.5' y2='21' stroke='%2300d4ff' stroke-width='1'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230d0d18'/><circle cx='16' cy='16' r='11' fill='none' stroke='%2300d4ff' stroke-width='2'/><ellipse cx='16' cy='16' rx='5.5' ry='11' fill='none' stroke='%2300d4ff' stroke-width='1.4'/><line x1='5' y1='16' x2='27' y2='16' stroke='%2300d4ff' stroke-width='1.5'/><line x1='7' y1='11' x2='25' y2='11' stroke='%2300d4ff' stroke-width='1.1'/><line x1='7' y1='21' x2='25' y2='21' stroke='%2300d4ff' stroke-width='1.1'/></svg>">
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -162,6 +162,14 @@ a{color:var(--cyan);text-decoration:none}
 .leg-row{display:flex;align-items:center;gap:8px;color:var(--ink);margin-bottom:5px}
 .leg-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(255,255,255,0.35);box-shadow:0 0 4px rgba(0,0,0,.5)}
 
+/* ── Forge Network ── */
+.forge-network{border-top:1px solid var(--border2);padding-top:16px;margin-top:16px;display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px}
+.forge-net-home{font-size:.88rem;font-weight:700;color:var(--ink-mid);text-decoration:none;letter-spacing:.02em;transition:color .12s}
+.forge-net-home:hover{color:var(--ink)}
+.forge-net-sep{width:1px;height:14px;background:var(--border2);flex-shrink:0}
+.forge-net-links{display:flex;align-items:center;flex-wrap:wrap;gap:2px}
+.forge-net-link{padding:3px 8px;border-radius:99px;font-size:.7rem;letter-spacing:.05em;color:var(--ink-low);text-decoration:none;transition:color .12s,background .12s}
+.forge-net-link:hover{color:var(--ink-mid);background:rgba(255,255,255,0.05)}
 /* Leaflet popup */
 .leaflet-popup-content-wrapper{background:var(--raised)!important;border:1px solid var(--border2)!important;border-radius:var(--r-lg)!important;box-shadow:0 8px 24px rgba(0,0,0,.6)!important;color:var(--ink)!important}
 .leaflet-popup-tip{background:var(--raised)!important}
@@ -379,6 +387,13 @@ a{color:var(--cyan);text-decoration:none}
 <!-- ═══ HEADER ═══ -->
 <header class="site-hdr">
   <div class="logo" onclick="closeAll()" title="GlossaForge — back to map">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.8" stroke-linecap="round" style="flex-shrink:0" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"/>
+      <ellipse cx="12" cy="12" rx="4.5" ry="10"/>
+      <line x1="2" y1="12" x2="22" y2="12"/>
+      <line x1="4" y1="7.5" x2="20" y2="7.5"/>
+      <line x1="4" y1="16.5" x2="20" y2="16.5"/>
+    </svg>
     Glossa<em>Forge</em>
   </div>
   <div class="hdr-search">
@@ -1364,5 +1379,19 @@ document.addEventListener('DOMContentLoaded',()=>{
   if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 });
 </script>
+
+<!-- Forge Network footer -->
+<div style="position:fixed;bottom:0;left:50%;transform:translateX(-50%);z-index:600;pointer-events:none;display:flex;justify-content:center;width:100%">
+</div>
+<div class="forge-network" style="position:fixed;bottom:60px;left:12px;z-index:490;background:rgba(13,13,24,0.88);backdrop-filter:blur(12px);border:1px solid var(--border2);border-radius:var(--r-full);padding:7px 14px;pointer-events:auto">
+  <a href="https://ayter.com" class="forge-net-home" style="font-family:var(--font-b);font-size:.82rem">ayter.com</a>
+  <div class="forge-net-sep"></div>
+  <div class="forge-net-links">
+    <a href="/muscleforge" class="forge-net-link">🏋️</a>
+    <a href="/signforge" class="forge-net-link">🤟</a>
+    <a href="/scrobbleforge/" class="forge-net-link">🎵</a>
+    <a href="/audioforge" class="forge-net-link">🎙️</a>
+  </div>
+</div>
 </body>
 </html>
