@@ -4,7 +4,7 @@
  */
 
 // Helper to create a language entry with defaults
-function L(id, iso1, name, native, family, branch, sub, l1, l2, lat, lon, countries, primary, region, macro, official, unesco, wordOrder, morph, caseAlign, caseN, consonant, vowel, tone, gender, genderN, extra) {
+function L(id, iso1, name, native, family, branch, sub, l1, l2, lat, lon, countries, primary, region, macro, official, wordOrder, morph, caseAlign, caseN, consonant, vowel, tone, gender, genderN, extra) {
   const e = extra || {};
   return {
     id, iso639_1: iso1, name, nativeName: native, alternateNames: e.alt || [],
@@ -567,6 +567,11 @@ alt: L('alt','','Southern Altai','Altay til','turkic','siberian','siberian',5500
 tyv: L('tyv','','Tuvan','Tyva dyl','turkic','siberian','siberian',280000,0,51.7,94.4,['RU'],'RU','Northern Asia','Asia',[],'SOV','agglutinative','nominative_accusative',6,'average','average','none','none',0,{vh:true,scripts:[{code:'Cyrl',name:'Cyrillic',type:'alphabet',direction:'ltr',isPrimary:true}]}),
 kjh: L('kjh','','Khakas','Xakas tili','turkic','siberian','siberian',43000,0,53.0,89.0,['RU'],'RU','Northern Asia','Asia',[],'SOV','agglutinative','nominative_accusative',6,'average','average','none','none',0,{status:'definitely_endangered',vh:true,scripts:[{code:'Cyrl',name:'Cyrillic',type:'alphabet',direction:'ltr',isPrimary:true}]}),
 uig: L('uig','ug','Uyghur','ئۇيغۇرچە','turkic','karluk','karluk',10000000,0,41.0,83.0,['CN'],'CN','Central Asia','Asia',[],'SOV','agglutinative','nominative_accusative',6,'average','average','none','none',0,{vh:true,scripts:[{code:'Arab',name:'Arabic',type:'abjad',direction:'rtl',isPrimary:true}]}),
+qxq: L('qxq','','Qashqai','Qašqāy dili','turkic','oghuz','oghuz',1500000,0,30.5,52.0,['IR'],'IR','West Asia','Asia',[],'SOV','agglutinative','nominative_accusative',6,'average','average','none','none',0,{status:'vulnerable',vh:true,scripts:[{code:'Arab',name:'Arabic',type:'abjad',direction:'rtl',isPrimary:true}]}),
+klj: L('klj','','Khalaj','Xalaj dili','turkic','khalaj',null,42000,0,34.4,50.2,['IR'],'IR','West Asia','Asia',[],'SOV','agglutinative','nominative_accusative',6,'average','average','none','none',0,{status:'severely_endangered',vh:true,scripts:[{code:'Arab',name:'Arabic',type:'abjad',direction:'rtl',isPrimary:true}]}),
+slr: L('slr','','Salar','Salır','turkic','oghuz','oghuz',70000,0,35.5,102.0,['CN'],'CN','East Asia','Asia',[],'SOV','agglutinative','nominative_accusative',6,'average','average','none','none',0,{status:'definitely_endangered',vh:true,scripts:[{code:'Arab',name:'Arabic',type:'abjad',direction:'rtl',isPrimary:true}]}),
+dlg: L('dlg','','Dolgan','Долган тыла','turkic','siberian','siberian',950,0,70.5,99.0,['RU'],'RU','Northern Asia','Asia',[],'SOV','agglutinative','nominative_accusative',8,'average','average','none','none',0,{status:'critically_endangered',vh:true,scripts:[{code:'Cyrl',name:'Cyrillic',type:'alphabet',direction:'ltr',isPrimary:true}]}),
+cjs: L('cjs','','Shor','Шор тили','turkic','siberian','siberian',2900,0,53.7,87.7,['RU'],'RU','Northern Asia','Asia',[],'SOV','agglutinative','nominative_accusative',6,'average','average','none','none',0,{status:'severely_endangered',vh:true,scripts:[{code:'Cyrl',name:'Cyrillic',type:'alphabet',direction:'ltr',isPrimary:true}]}),
 
 // ═══════════════════════════════════════════════════════════════════════════
 // ADDITIONAL URALIC
