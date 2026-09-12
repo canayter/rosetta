@@ -1,4 +1,4 @@
-const CACHE_NAME = 'glossaforge-v3';
+const CACHE_NAME = 'glossaforge-v6';
 
 // Only cache stable data files — never cache HTML
 const DATA_ASSETS = [

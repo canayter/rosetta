@@ -2,25 +2,19 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com https://*.tile.opentopomap.org https://server.arcgisonline.com https://tile.opentopomap.org; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta name="description" content="GlossaForge — Interactive world language map. Explore 500+ languages by family, typology, and endangerment.">
+<meta name="description" content="Rosetta — Interactive world language map. Explore 500+ languages by family, typology, and endangerment.">
 <meta name="theme-color" content="#00d4ff">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="GlossaForge">
-<meta name="mobile-web-app-capable" content="yes">
-<title>GlossaForge — The Human Language Atlas</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230d0d18'/><text y='.85em' font-size='75' x='12'>🌍</text></svg>">
+<title>Rosetta — World Language Map</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230d0d18'/><circle cx='16' cy='16' r='11' fill='none' stroke='%2300d4ff' stroke-width='2'/><ellipse cx='16' cy='16' rx='5.5' ry='11' fill='none' stroke='%2300d4ff' stroke-width='1.4'/><line x1='5' y1='16' x2='27' y2='16' stroke='%2300d4ff' stroke-width='1.5'/><line x1='7' y1='11' x2='25' y2='11' stroke='%2300d4ff' stroke-width='1.1'/><line x1='7' y1='21' x2='25' y2='21' stroke='%2300d4ff' stroke-width='1.1'/></svg>">
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Teko:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" crossorigin="anonymous"></script>
-<script>window.__GF_L = window.L;</script><!-- capture Leaflet before host injection overwrites L -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lib/leaflet.min.css">
+<script src="lib/leaflet.min.js"></script>
 <style>
 /* ═══ DESIGN SYSTEM ═══ */
 :root {
@@ -40,16 +34,20 @@
   --hdr:52px;
 }
 [data-theme="light"] {
-  --void:#f2f2f7; --base:#e9e9f0; --raised:#ffffff; --surface:#ffffff;
-  --lift:#ffffff; --hover:#dde0ec; --active:#cdd0e0;
-  --border:rgba(0,0,0,0.09); --border2:rgba(0,0,0,0.17);
-  --ink:#0d0d1f; --ink-mid:#3a3a55; --ink-low:#60607a; --ink-dim:#c0c0d8;
-  --cyan:#0099cc; --cyan-dim:rgba(0,153,204,0.10); --cyan-glow:rgba(0,153,204,0.25);
+  --void:#f0f0f5; --base:#e8e8f0; --raised:#ffffff; --surface:#ffffff;
+  --lift:#ffffff; --hover:#dddde8; --active:#d0d0df;
+  --border:rgba(0,0,0,0.08); --border2:rgba(0,0,0,0.15);
+  --ink:#111120; --ink-mid:#4a4a60; --ink-low:#7070a0; --ink-dim:#d0d0e0;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
-body{font-family:var(--font-b);font-size:15px;color:var(--ink);background:var(--void);-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-b);font-size:14px;color:var(--ink);background:var(--void);-webkit-font-smoothing:antialiased}
 button,input,select{font:inherit;color:inherit}
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+/* iOS: prevent zoom on focus — ensure inputs are font-size 16px on mobile */
+@media(max-width:768px){
+  input,select,textarea{font-size:max(16px,1em)!important}
+}
 a{color:var(--cyan);text-decoration:none}
 ::selection{background:var(--cyan);color:#000}
 :focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:4px}
@@ -59,20 +57,17 @@ a{color:var(--cyan);text-decoration:none}
 .site-hdr {
   position:fixed;top:0;left:0;right:0;height:var(--hdr);z-index:1000;
   display:flex;align-items:center;gap:10px;padding:0 14px;
-  padding-left:max(14px, env(safe-area-inset-left));
-  padding-right:max(14px, env(safe-area-inset-right));
-  background:rgba(6,6,14,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  padding-top:env(safe-area-inset-top);
+  background:rgba(6,6,14,0.88);backdrop-filter:blur(18px);
   border-bottom:1px solid var(--border);
 }
-[data-theme="light"] .site-hdr{background:rgba(242,242,247,0.96);border-bottom-color:rgba(0,0,0,0.12)}
-/* ── Logo ── */
-.logo{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;flex-shrink:0;text-decoration:none;}
-.logo-emoji{font-size:1.7rem;line-height:1}
-.logo-textblock{display:flex;flex-direction:column;}
-.logo-wordmark{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.08em;line-height:1}
-.logo-glossa{color:var(--ink)}
-.logo-forge{color:var(--cyan);text-shadow:0 0 10px var(--cyan-glow)}
-.logo-tagline{font-family:'Teko',sans-serif;font-size:0.85rem;text-transform:uppercase;letter-spacing:.12em;color:var(--cyan)}
+[data-theme="light"] .site-hdr{background:rgba(240,240,245,0.90)}
+.logo{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--font-h);font-size:1.05rem;font-weight:700;
+  letter-spacing:-0.02em;color:var(--ink);white-space:nowrap;cursor:pointer;
+}
+.logo em{font-style:normal;color:var(--cyan)}
 .hdr-search{
   flex:1;max-width:260px;
   display:flex;align-items:center;gap:6px;
@@ -91,10 +86,11 @@ a{color:var(--cyan);text-decoration:none}
 .hdr-sel:focus{border-color:var(--cyan)}
 .hdr-end{display:flex;align-items:center;gap:6px;margin-left:auto}
 .icon-btn{
-  width:34px;height:34px;border-radius:var(--r);
+  width:44px;height:44px;border-radius:var(--r);
   background:var(--raised);border:1px solid var(--border);
   cursor:pointer;display:flex;align-items:center;justify-content:center;
   font-size:15px;transition:background 120ms;flex-shrink:0;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
 }
 .icon-btn:hover{background:var(--hover)}
 .hdr-count{
@@ -106,10 +102,11 @@ a{color:var(--cyan);text-decoration:none}
 /* ═══ MAP ═══ */
 #mapContainer{
   position:fixed;top:var(--hdr);left:0;right:0;bottom:0;z-index:1;
-  background:#1a2a1a;
+  background:#07090c;
 }
-.leaflet-container{background:#1c2b3a}
-[data-theme="light"] .leaflet-container{background:#d8e8f0}
+/* Leaflet tile layer loads into here */
+.leaflet-container{background:#07090c}
+[data-theme="light"] .leaflet-container{background:#c8d8e8}
 
 /* ═══ MAP OVERLAY CONTROLS ═══ */
 .map-filters{
@@ -143,43 +140,22 @@ a{color:var(--cyan);text-decoration:none}
 [data-theme="light"] .mf-extinct{background:rgba(255,255,255,0.90)}
 
 .map-layers{
-  position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:500;
+  position:fixed;bottom:max(18px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:500;
   display:flex;gap:3px;
-  background:rgba(13,13,24,0.90);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  background:rgba(13,13,24,0.90);backdrop-filter:blur(12px);
   border:1px solid var(--border2);border-radius:var(--r-full);padding:4px;
   white-space:nowrap;
 }
-[data-theme="light"] .map-layers{background:rgba(255,255,255,0.92)}
+[data-theme="light"] .map-layers{background:rgba(255,255,255,0.90)}
 .ml-btn{
   padding:5px 14px;border-radius:var(--r-full);
   font-size:12px;font-weight:500;color:var(--ink-low);
   cursor:pointer;border:none;background:none;transition:all 100ms;
+  min-height:44px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
 }
 .ml-btn:hover{color:var(--ink)}
 .ml-btn.active{background:var(--cyan);color:#000;font-weight:600}
-[data-theme="light"] .ml-btn.active{color:#fff;background:#0099cc}
-
-/* ── Basemap switcher ── */
-.map-basemap{
-  position:fixed;bottom:62px;left:50%;transform:translateX(-50%);z-index:500;
-  display:flex;align-items:center;gap:3px;
-  background:rgba(13,13,24,0.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border:1px solid var(--border2);border-radius:var(--r-full);padding:4px;
-  white-space:nowrap;
-}
-[data-theme="light"] .map-basemap{background:rgba(255,255,255,0.92)}
-.bm-label{
-  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
-  color:var(--ink-low);padding:0 8px;
-}
-.bm-btn{
-  padding:4px 11px;border-radius:var(--r-full);
-  font-size:11px;font-weight:500;color:var(--ink-low);
-  cursor:pointer;border:none;background:none;transition:all 100ms;
-}
-.bm-btn:hover{color:var(--ink)}
-.bm-btn.active{background:var(--cyan-dim);color:var(--cyan);font-weight:600;border:1px solid var(--cyan)}
-[data-theme="light"] .bm-btn.active{background:rgba(0,153,204,.12);color:#0099cc;border-color:#0099cc}
+[data-theme="light"] .ml-btn.active{color:#fff}
 
 .map-legend{
   position:fixed;bottom:70px;right:12px;z-index:500;
@@ -194,34 +170,24 @@ a{color:var(--cyan);text-decoration:none}
 .leg-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(255,255,255,0.35);box-shadow:0 0 4px rgba(0,0,0,.5)}
 
 /* ── Forge Network ── */
-.forge-network{border-top:1px solid var(--border2);padding-top:16px;margin-top:16px;display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px}
-.forge-net-home{font-size:.88rem;font-weight:700;color:var(--ink-mid);text-decoration:none;letter-spacing:.02em;transition:color .12s}
-.forge-net-home:hover{color:var(--ink)}
-.forge-net-sep{width:1px;height:14px;background:var(--border2);flex-shrink:0}
-.forge-net-links{display:flex;align-items:center;flex-wrap:wrap;gap:2px}
-.forge-net-link{padding:3px 8px;border-radius:99px;font-size:.7rem;letter-spacing:.05em;color:var(--ink-low);text-decoration:none;transition:color .12s,background .12s}
-.forge-net-link:hover{color:var(--ink-mid);background:rgba(255,255,255,0.05)}
-/* ── Hover tooltip ── */
-.gf-tooltip .leaflet-tooltip{
-  background:none!important;border:none!important;box-shadow:none!important;padding:0!important;
-}
-.map-tooltip{
-  background:var(--base);border:1px solid var(--border2);border-radius:var(--r-lg);
-  padding:12px 14px;min-width:180px;max-width:240px;
-  box-shadow:0 8px 24px rgba(0,0,0,.5);pointer-events:none;
-}
-.tt-name{font-family:var(--font-h);font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:2px;line-height:1.2}
-.tt-native{font-family:var(--font-b);font-size:.75rem;font-weight:400;color:var(--ink-mid)}
-.tt-family{font-size:11px;color:var(--ink-mid);margin-bottom:7px}
-.tt-chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
-.tt-chip{
-  background:var(--raised);border:1px solid var(--border2);border-radius:var(--r-full);
-  padding:2px 7px;font-size:10px;font-weight:500;color:var(--ink-mid);
-}
-.tt-foot{display:flex;justify-content:space-between;font-size:10px;color:var(--ink-low);margin-bottom:5px;gap:10px}
-.tt-hint{font-size:9px;color:var(--ink-dim);font-style:italic;text-align:right}
-[data-theme="light"] .map-tooltip{background:#fff;box-shadow:0 8px 24px rgba(0,0,0,.15)}
-
+.fgn-fab{position:fixed;bottom:max(16px,env(safe-area-inset-bottom));right:max(16px,env(safe-area-inset-right));z-index:490;display:flex;flex-direction:column;align-items:flex-end;gap:8px;font-family:'Space Grotesk',system-ui,sans-serif}
+.fgn-fab-btn{display:flex;align-items:center;gap:7px;padding:7px 13px;background:rgba(13,13,24,0.9);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.14);border-radius:9999px;color:rgba(255,255,255,0.65);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:border-color .15s,color .15s;user-select:none}
+.fgn-fab-btn:hover{border-color:rgba(255,255,255,0.3);color:#fff}
+.fgn-fab-dot{width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#a855f7);flex-shrink:0}
+.fgn-panel{display:none;flex-direction:column;background:rgba(10,10,20,0.97);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.12);border-radius:16px;overflow:hidden;width:min(340px,calc(100vw - 32px))}
+.fgn-panel--open{display:flex}
+.fgn-panel-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 10px;border-bottom:1px solid rgba(255,255,255,0.07)}
+.fgn-panel-title{font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.28)}
+.fgn-panel-close{background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;font-size:.95rem;padding:0;line-height:1;transition:color .12s}
+.fgn-panel-close:hover{color:#fff}
+.fgn-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;padding:10px;max-height:calc(100vh - 130px);overflow-y:auto}
+.fgn-item{display:flex;flex-direction:column;gap:2px;padding:8px 10px;border-radius:8px;text-decoration:none;background:rgba(255,255,255,.025) padding-box,rgba(255,255,255,.06) border-box;border:1px solid transparent;transition:background .15s,box-shadow .15s}
+.fgn-item:hover{background:rgba(255,255,255,.055) padding-box,linear-gradient(135deg,#4f46e5,#a855f7,#ec4899) border-box;box-shadow:0 2px 12px rgba(168,85,247,.15)}
+.fgn-item--active{background:rgba(255,255,255,.04) padding-box,var(--fgn-grad,linear-gradient(135deg,#4f46e5,#ec4899)) border-box}
+.fgn-name{font-size:.75rem;font-weight:600;color:rgba(255,255,255,.62);line-height:1.2;transition:color .15s}
+.fgn-item:hover .fgn-name{color:rgba(255,255,255,.92)}
+.fgn-desc{font-size:.56rem;color:rgba(255,255,255,.24);line-height:1.3;transition:color .15s}
+.fgn-item:hover .fgn-desc{color:rgba(255,255,255,.5)}
 /* Leaflet popup */
 .leaflet-popup-content-wrapper{background:var(--raised)!important;border:1px solid var(--border2)!important;border-radius:var(--r-lg)!important;box-shadow:0 8px 24px rgba(0,0,0,.6)!important;color:var(--ink)!important}
 .leaflet-popup-tip{background:var(--raised)!important}
@@ -242,7 +208,8 @@ a{color:var(--cyan);text-decoration:none}
 .detail-panel{
   position:fixed;top:var(--hdr);right:0;width:380px;bottom:0;z-index:700;
   background:var(--base);border-left:1px solid var(--border2);
-  overflow-y:auto;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding-bottom:env(safe-area-inset-bottom);
   transform:translateX(100%);transition:transform .28s var(--ease);
 }
 .detail-panel.open{transform:translateX(0)}
@@ -260,6 +227,8 @@ a{color:var(--cyan);text-decoration:none}
 .dp-close:hover{background:var(--hover)}
 .dp-body{padding:16px}
 .dp-name{font-family:var(--font-h);font-size:1.4rem;font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:2px}
+.dp-hear{background:none;border:none;cursor:pointer;font-size:1rem;padding:2px 4px;border-radius:6px;opacity:.6;transition:opacity .15s,background .15s;vertical-align:middle;-webkit-tap-highlight-color:transparent}
+.dp-hear:hover{opacity:1;background:rgba(0,212,255,.12)}
 .dp-native{font-size:13px;color:var(--ink-low);margin-bottom:3px}
 .dp-alts{font-size:11px;color:var(--ink-dim);margin-bottom:12px}
 .dp-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:18px}
@@ -286,6 +255,7 @@ a{color:var(--cyan);text-decoration:none}
   background:var(--base);
   display:flex;flex-direction:column;
   transform:translateY(100%);transition:transform .3s var(--ease);
+  padding-bottom:env(safe-area-inset-bottom);
 }
 .menu-drawer.open{transform:translateY(0)}
 .md-head{
@@ -388,8 +358,15 @@ a{color:var(--cyan);text-decoration:none}
 .comp-table th{background:var(--surface);padding:9px 12px;text-align:left;font-family:var(--font-h);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-low);border-bottom:1px solid var(--border)}
 .comp-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--ink-mid)}
 .comp-table td:first-child{color:var(--ink-low);font-size:11px}
-.comp-table tr.match td{color:var(--ink);background:rgba(0,212,255,.04)}
+.comp-table tr.match td{color:var(--ink);background:rgba(0,212,255,.07)}
+.comp-table tr.match td:first-child{color:var(--cyan);font-weight:600}
 .comp-table tr:last-child td{border-bottom:none}
+.comp-sim{display:flex;align-items:center;gap:14px;padding:14px 16px;margin-bottom:14px;border:1px solid var(--border);border-radius:var(--r-lg);background:var(--surface)}
+.comp-sim-num{font-family:var(--font-h);font-size:2.1rem;font-weight:700;line-height:1}
+.comp-sim-lbl{font-size:12px;color:var(--ink-mid);text-transform:uppercase;letter-spacing:.05em;font-weight:600;line-height:1.4}
+.comp-sim-lbl span{font-size:11px;color:var(--ink-low);text-transform:none;letter-spacing:0;font-weight:400}
+.comp-lh{display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.comp-lh-name{font-size:12px;font-weight:700;color:var(--ink);text-transform:none}
 .tl-wrap{position:relative;padding-left:22px}
 .tl-wrap::before{content:'';position:absolute;left:5px;top:0;bottom:0;width:1px;background:var(--border)}
 .tl-item{position:relative;padding:6px 0 6px 18px;margin-bottom:1px}
@@ -413,48 +390,23 @@ a{color:var(--cyan);text-decoration:none}
 .know-sec{margin-bottom:28px}
 .know-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-low);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--border)}
 
-/* ═══ RESPONSIVE + MOBILE ═══ */
-/* iOS safe area support */
-@supports(padding: max(0px)) {
-  body { padding-bottom: env(safe-area-inset-bottom, 0px); }
-  .map-layers { bottom: calc(18px + env(safe-area-inset-bottom, 0px)); }
-  .map-basemap { bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
-  .forge-network { bottom: calc(60px + env(safe-area-inset-bottom, 0px)); }
-  .detail-panel { padding-bottom: env(safe-area-inset-bottom, 0px); }
-  .menu-drawer { padding-bottom: env(safe-area-inset-bottom, 0px); }
-}
-/* Touch targets — all interactive elements minimum 44px */
-.icon-btn{min-width:44px;min-height:44px;width:44px;height:44px}
-.ml-btn{min-height:36px;padding:6px 14px}
-.btn{min-height:44px}
-.btn-sm{min-height:36px}
-.dp-close{width:36px;height:36px}
-/* Prevent iOS text size adjust */
-html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-/* Better touch scrolling */
-.md-body,.detail-panel{-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-.md-tabs{-webkit-overflow-scrolling:touch}
+/* ═══ RESPONSIVE ═══ */
 @media(max-width:768px){
   .hdr-sel{display:none}
   .hdr-search{max-width:none;flex:1}
   .map-filters{max-width:calc(100vw - 60px)}
   .mf-chip select{max-width:90px}
   .detail-panel{width:100%;right:0;border-left:none;border-top:1px solid var(--border2)}
-  .map-layers{bottom:calc(70px + env(safe-area-inset-bottom,0px));font-size:11px}
-  .map-basemap{display:none}
+  .map-layers{bottom:70px;font-size:11px}
   .map-legend{display:none}
   .md-body{padding:16px}
   .expl-top{flex-direction:column}
-  .lang-grid{grid-template-columns:1fr}
-  .dp-grid{grid-template-columns:1fr 1fr}
-  .stats-grid{grid-template-columns:1fr}
 }
 @media(max-width:480px){
-  .site-hdr{padding:0 10px;gap:6px;padding-left:max(10px,env(safe-area-inset-left));padding-right:max(10px,env(safe-area-inset-right))}
-  .logo-tagline{display:none}
+  .site-hdr{padding:0 10px;gap:6px}
+  .logo{font-size:.95rem}
   .map-filters{top:calc(var(--hdr)+8px);left:8px;gap:4px}
   .mf-chip{padding:3px 8px}
-  .menu-drawer .md-body{padding:14px}
 }
 </style>
 </head>
@@ -463,12 +415,15 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 
 <!-- ═══ HEADER ═══ -->
 <header class="site-hdr">
-  <div class="logo" onclick="closeAll()" title="GlossaForge — The Human Language Atlas">
-    <span class="logo-emoji" aria-hidden="true">🌍</span>
-    <div class="logo-textblock">
-      <span class="logo-wordmark"><span class="logo-glossa">GLOSSA</span><span class="logo-forge">FORGE</span></span>
-      <span class="logo-tagline">The Human Language Atlas</span>
-    </div>
+  <div class="logo" onclick="closeAll()" title="Rosetta — back to map">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.8" stroke-linecap="round" style="flex-shrink:0" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"/>
+      <ellipse cx="12" cy="12" rx="4.5" ry="10"/>
+      <line x1="2" y1="12" x2="22" y2="12"/>
+      <line x1="4" y1="7.5" x2="20" y2="7.5"/>
+      <line x1="4" y1="16.5" x2="20" y2="16.5"/>
+    </svg>
+    Rosetta
   </div>
   <div class="hdr-search">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -532,6 +487,19 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
       <option value="complex">Complex</option>
     </select>
   </div>
+  <div class="mf-chip">
+    <span>Script:</span>
+    <select id="fScript" aria-label="Filter by writing system">
+      <option value="">Any</option>
+      <option value="alphabet">Alphabet</option>
+      <option value="abjad">Abjad</option>
+      <option value="abugida">Abugida</option>
+      <option value="syllabary">Syllabary</option>
+      <option value="logographic">Logographic</option>
+      <option value="featural">Featural</option>
+      <option value="none">No writing</option>
+    </select>
+  </div>
   <label class="mf-extinct" title="Show extinct languages on map">
     <input type="checkbox" id="fExtinct" style="accent-color:var(--cyan)">
     Extinct
@@ -539,20 +507,13 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   <button class="mf-reset" id="resetBtn" onclick="resetFilters()">✕ Reset</button>
 </div>
 
-<!-- ═══ DATA LAYER SWITCHER ═══ -->
-<nav class="map-layers" aria-label="Map data layer">
-  <button class="ml-btn active" data-layer="family">Language Family</button>
-  <button class="ml-btn" data-layer="endangerment">Endangerment</button>
-  <button class="ml-btn" data-layer="speakers">Speaker Count</button>
-</nav>
-
-<!-- ═══ BASEMAP SWITCHER ═══ -->
-<nav class="map-basemap" aria-label="Base map style" id="basemapBar">
-  <span class="bm-label">Map</span>
-  <button class="bm-btn active" data-bm="physical">Physical</button>
-  <button class="bm-btn" data-bm="topo">Topographic</button>
-  <button class="bm-btn" data-bm="political">Political</button>
-  <button class="bm-btn" data-bm="satellite">Satellite</button>
+<!-- ═══ MAP LAYER SWITCHER ═══ -->
+<nav class="map-layers" aria-label="Map colour mode">
+  <button class="ml-btn active" data-layer="family">Family</button>
+  <button class="ml-btn" data-layer="endangerment">Status</button>
+  <button class="ml-btn" data-layer="wordorder">Word Order</button>
+  <button class="ml-btn" data-layer="morphology">Morphology</button>
+  <button class="ml-btn" data-layer="tone">Tone</button>
 </nav>
 
 <!-- ═══ LEGEND ═══ -->
@@ -568,15 +529,9 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 </aside>
 
 <!-- ═══ MENU DRAWER ═══ -->
-<div id="menuDrawer" class="menu-drawer" role="dialog" aria-label="GlossaForge menu">
+<div id="menuDrawer" class="menu-drawer" role="dialog" aria-label="Rosetta menu">
   <div class="md-head">
-    <div class="logo" onclick="closeMenu()" title="GlossaForge — The Human Language Atlas">
-      <span class="logo-emoji" aria-hidden="true">🌍</span>
-      <div class="logo-textblock">
-        <span class="logo-wordmark"><span class="logo-glossa">GLOSSA</span><span class="logo-forge">FORGE</span></span>
-        <span class="logo-tagline">The Human Language Atlas</span>
-      </div>
-    </div>
+    <span class="md-logo">Glossa<em>Forge</em></span>
     <button class="icon-btn" onclick="closeMenu()" aria-label="Close menu">✕</button>
   </div>
   <nav class="md-tabs" role="tablist">
@@ -781,6 +736,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 </div><!-- /menu-drawer -->
 
 <!-- DATA FILES -->
+<script src="data/world.js"></script>
 <script src="data/families.js"></script>
 <script src="data/languages.js"></script>
 <script src="data/intelligibility.js"></script>
@@ -789,8 +745,8 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 <!-- APP -->
 <script>
 'use strict';
-// Restore Leaflet — GoDaddy inline injection can overwrite window.L between head and DOMContentLoaded
-if (window.__GF_L && typeof window.__GF_L.map === 'function') window.L = window.__GF_L;
+// Leaflet is loaded locally from lib/ and the data helper no longer uses the name "L",
+// so window.L stays intact — no restore hack needed.
 
 // ── HELPERS ──
 function getAllLangs(){return typeof LANGUAGE_DATABASE!=='undefined'?Object.values(LANGUAGE_DATABASE):[]}
@@ -798,6 +754,23 @@ function getLang(id){return typeof LANGUAGE_DATABASE!=='undefined'?LANGUAGE_DATA
 function getFamName(id){return(typeof FAMILY_TREE!=='undefined'&&FAMILY_TREE[id])?FAMILY_TREE[id].name:id||'—'}
 function fmtN(n){if(!n)return'0';if(n>=1e9)return(n/1e9).toFixed(1)+'B';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return String(n)}
 function esc(s){if(s==null)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+// Coerce any value (number/null/etc.) to a display string + de-underscore.
+// Guards the detail panel so a stale/odd data field can never throw mid-render
+// (which would leave the body out of sync with the title).
+function uf(v,sep,def){return esc(String(v==null||v===''?(def||'—'):v)).replace(/_/g,sep||' ')}
+
+// ── Sample audio (browser speech engine) ──
+function speakLang(text,iso){
+  if(!('speechSynthesis'in window)||!text)return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  if(iso)u.lang=iso;
+  u.rate=0.82;
+  const voices=window.speechSynthesis.getVoices();
+  if(iso){const v=voices.find(v=>v.lang&&v.lang.toLowerCase().startsWith(iso.toLowerCase()));if(v)u.voice=v;}
+  window.speechSynthesis.speak(u);
+}
+if('speechSynthesis'in window){window.speechSynthesis.getVoices();}
 
 const FHEX={indoEuropean:'#60a5fa',sinoTibetan:'#f87171',nigerCongo:'#34d399',afroasiatic:'#fbbf24',austronesian:'#a78bfa',dravidian:'#fb923c',turkic:'#22d3ee',uralic:'#e879f9',japonic:'#f472b6',koreanic:'#818cf8',taiKadai:'#2dd4bf',austroasiatic:'#a3e635',kartvelian:'#fb7185',mongolic:'#c084fc',semitic:'#fde68a'};
 function getFHex(id){return FHEX[id]||'#71717a'}
@@ -825,106 +798,50 @@ function endangBadge(s){
 })();
 
 // ── MAP ──
-let leafletMap=null;
+let leafletMap=null,worldLayer=null;
 let mapLayerMode='family';
 let mapMarkers=[];
 
-// ── BASEMAP SYSTEM ──
-const BM={};
-let currentBM=null;
-let activeBMKey='dark';
-
-function initBasemaps(){
-  // Verified-working tile URLs — tested against CORS and tile server availability
-  BM.dark=L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_matter/{z}/{x}/{y}{r}.png',{
-    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com">CARTO</a>',
-    maxZoom:19,subdomains:'abcd'
-  });
-  BM.physical=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}',{
-    attribution:'Tiles &copy; Esri &mdash; Source: US National Park Service',
-    maxNativeZoom:8,maxZoom:18
-  });
-  BM.topo=L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{
-    attribution:'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors, <a href="https://viewfinderpanoramas.org">SRTM</a> | Style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a>',
-    maxZoom:17,subdomains:'abc'
-  });
-  BM.political=L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{
-    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com">CARTO</a>',
-    maxZoom:19,subdomains:'abcd'
-  });
-  BM.satellite=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
-    attribution:'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGS, GIS User Community',
-    maxZoom:19
-  });
-}
-
-function setBasemap(key){
-  if(!leafletMap)return;
-  if(currentBM&&leafletMap.hasLayer(currentBM))leafletMap.removeLayer(currentBM);
-  const layer=BM[key]||BM.physical;
-  layer.addTo(leafletMap);
-  layer.bringToBack();
-  currentBM=layer;
-  activeBMKey=key;
-  document.querySelectorAll('.bm-btn').forEach(b=>b.classList.toggle('active',b.dataset.bm===key));
-  localStorage.setItem('gf-basemap',key);
-}
-
-function setupBasemapEvents(){
-  document.querySelectorAll('.bm-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>setBasemap(btn.dataset.bm));
-  });
+// Land styling for the bundled world map (no external tiles)
+function landStyle(){
+  const light=document.documentElement.getAttribute('data-theme')==='light';
+  return light
+    ? {fillColor:'#dde6f1',fillOpacity:1,color:'#aebccf',weight:0.6}
+    : {fillColor:'#111821',fillOpacity:1,color:'#26313f',weight:0.6};
 }
 
 function initMap(){
   if(leafletMap) return;
-  console.log('[GF] initMap called');
   if(typeof L === 'undefined' || typeof L.map !== 'function'){
-    console.error('[GF] Leaflet not available. typeof L =', typeof L);
     const el = document.getElementById('mapContainer');
-    el.style.cssText += ';display:flex;align-items:center;justify-content:center;background:#0f1117';
-    el.innerHTML = '<div style="color:#a8adb8;text-align:center;font-family:sans-serif;padding:2rem"><p style="margin-bottom:8px;font-size:1rem">Map library failed to load.</p><p style="font-size:0.8rem;opacity:0.6">Open browser DevTools → Console for details.</p></div>';
+    el.style.cssText += ';display:flex;align-items:center;justify-content:center';
+    el.innerHTML = '<div style="color:#a8adb8;text-align:center;font-family:sans-serif;padding:2rem"><p style="margin-bottom:8px;font-size:1rem">Map library failed to load.</p><p style="font-size:0.8rem;opacity:0.6">Make sure the <code>lib/</code> folder is uploaded.</p></div>';
     return;
   }
-  console.log('[GF] Leaflet OK. Creating map...');
   try{
     leafletMap=L.map('mapContainer',{
       zoomControl:false,attributionControl:false,
-      minZoom:2,
-      maxBounds:[[-90,-180],[90,180]],
-      maxBoundsViscosity:0.85
-    }).setView([20,10],2);
-    console.log('[GF] Map created. Container size:', leafletMap.getSize());
+      worldCopyJump:true,minZoom:2,maxZoom:7,
+      maxBounds:[[-85,-200],[85,200]],maxBoundsViscosity:0.6
+    }).setView([25,8],2);
     L.control.zoom({position:'bottomright'}).addTo(leafletMap);
-    L.control.attribution({position:'bottomright',prefix:false}).addTo(leafletMap);
-    initBasemaps();
-    const savedBM=localStorage.getItem('gf-basemap')||'physical';
-    setBasemap(savedBM);
-    console.log('[GF] Tile layer added. Scheduling invalidateSize...');
-    setTimeout(()=>{
-      if(!leafletMap)return;
-      leafletMap.invalidateSize();
-      console.log('[GF] invalidateSize() called. New size:', leafletMap.getSize());
-    },300);
+    // Draw the bundled world map (fully local — no tile server, works under any CSP)
+    if(typeof WORLD_GEOJSON!=='undefined'){
+      worldLayer=L.geoJSON(WORLD_GEOJSON,{style:landStyle,interactive:false}).addTo(leafletMap);
+    }
+    setTimeout(()=>{ if(leafletMap)leafletMap.invalidateSize(); },200);
     populateHeaderFilters();
     renderMarkers();
     renderLegend();
     setupMapEvents();
-    setupBasemapEvents();
-    console.log('[GF] initMap complete.');
   }catch(e){
     console.error('[GF] Map init error:', e);
   }
 }
 
+// Re-style the land when the theme changes (replaces the old tile swap)
 function updateTiles(){
-  // When theme toggles, switch to theme-appropriate basemap only if user hasn't pinned one
-  if(!leafletMap)return;
-  const pinned=localStorage.getItem('gf-basemap');
-  if(!pinned){
-    const isDark=document.documentElement.getAttribute('data-theme')!=='light';
-    setBasemap('physical');
-  }
+  if(worldLayer)worldLayer.setStyle(landStyle());
 }
 
 function populateHeaderFilters(){
@@ -952,6 +869,7 @@ function getFiltered(){
   const wordOrder=document.getElementById('fWordOrder').value;
   const morph=document.getElementById('fMorph').value;
   const tone=document.getElementById('fTone').value;
+  const script=document.getElementById('fScript').value;
   const showExtinct=document.getElementById('fExtinct').checked;
   return langs.filter(l=>{
     if(!showExtinct&&(l.isExtinct||l.unescoStatus==='extinct'))return false;
@@ -962,35 +880,21 @@ function getFiltered(){
     if(wordOrder&&l.wordOrder!==wordOrder)return false;
     if(morph&&l.morphType!==morph)return false;
     if(tone&&l.toneSystem!==tone)return false;
+    if(script){
+      if(script==='none'){if(l.scripts&&l.scripts.length)return false;}
+      else if(!l.scripts||!l.scripts.some(s=>s.type&&s.type.toLowerCase()===script))return false;
+    }
     return true;
   });
 }
 
-// Endangerment: green (safe) → yellow-green → yellow → orange → red → charcoal (extinct)
-const ENDANG_COLORS={
-  safe:'#22c55e',
-  vulnerable:'#84cc16',
-  definitely_endangered:'#eab308',
-  severely_endangered:'#f97316',
-  critically_endangered:'#ef4444',
-  extinct:'#374151'
-};
-// Speakers: blue (dominant) → green → lime → amber → orange → red → dark red (tiny)
-function getSpeakerColor(n){
-  if(!n||n<1)return'#6b7280';
-  if(n>=500e6)return'#06b6d4'; // 500M+ — cyan
-  if(n>=100e6)return'#10b981'; // 100M+ — emerald
-  if(n>=10e6) return'#84cc16'; // 10M+  — lime
-  if(n>=1e6)  return'#eab308'; // 1M+   — amber
-  if(n>=100e3)return'#f97316'; // 100k+ — orange
-  if(n>=10e3) return'#ef4444'; // 10k+  — red
-  return'#9f1239';              // <10k  — dark rose (critically small)
-}
 function getMarkerColor(l){
   switch(mapLayerMode){
     case'family':return getFHex(l.family);
-    case'endangerment':return ENDANG_COLORS[l.unescoStatus]||'#6b7280';
-    case'speakers':return getSpeakerColor(l.totalSpeakers||l.l1Speakers||0);
+    case'endangerment':return({safe:'#34d399',vulnerable:'#fbbf24',definitely_endangered:'#fb923c',severely_endangered:'#f87171',critically_endangered:'#ef4444',extinct:'#52525b'})[l.unescoStatus]||'#71717a';
+    case'wordorder':return({SOV:'#60a5fa',SVO:'#34d399',VSO:'#fbbf24',VOS:'#f87171',OVS:'#a78bfa',OSV:'#fb923c'})[l.wordOrder]||'#71717a';
+    case'morphology':return({isolating:'#60a5fa',agglutinative:'#34d399',fusional:'#fbbf24',polysynthetic:'#f87171',introflexive:'#a78bfa'})[l.morphType]||'#71717a';
+    case'tone':return({none:'#71717a',simple:'#fbbf24',complex:'#f87171'})[l.toneSystem]||'#71717a';
     default:return'#71717a';
   }
 }
@@ -1000,137 +904,46 @@ function renderMarkers(){
   mapMarkers.forEach(m=>leafletMap.removeLayer(m));
   mapMarkers=[];
   const langs=getFiltered();
-  console.log('[GF] renderMarkers — langs:',langs.length,'typeof L:',typeof L);
   document.getElementById('hdrCount').textContent=langs.length+' lang'+(langs.length!==1?'s':'');
   // Update reset button visibility
   const hasFilter=document.getElementById('mapSearch').value||document.getElementById('hdFamily').value||document.getElementById('hdRegion').value||document.getElementById('hdStatus').value||document.getElementById('fWordOrder').value||document.getElementById('fMorph').value||document.getElementById('fTone').value||document.getElementById('fExtinct').checked;
   document.getElementById('resetBtn').style.display=hasFilter?'block':'none';
-  let markerErr=null;
   langs.forEach(lang=>{
     if(!lang.lat||!lang.lon)return;
-    try{
-      const r=Math.max(5,Math.min(14,Math.log10(lang.totalSpeakers||lang.l1Speakers||1000)*2));
-      const col=getMarkerColor(lang);
-      const m=L.circleMarker([lang.lat,lang.lon],{radius:r,fillColor:col,color:'rgba(255,255,255,0.55)',weight:1.5,opacity:1,fillOpacity:.85,bubblingMouseEvents:false});
-      m.on('mouseover',function(){this.setRadius(r+3);this.setStyle({fillOpacity:1,weight:2});});
-      m.on('mouseout',function(){this.setRadius(r);this.setStyle({fillOpacity:.85,weight:1.5});});
-      m.on('click',()=>openDetail(lang.id));
-      const spk=lang.totalSpeakers||lang.l1Speakers||0;
-      const nativePart=lang.nativeName&&lang.nativeName!==lang.name?' <span class="tt-native">'+esc(lang.nativeName)+'</span>':'';
-      const branchPart=lang.branch?' &middot; '+esc(lang.branch):'';
-      const chipsPart=[
-        lang.wordOrder&&'<span class="tt-chip">'+lang.wordOrder+'</span>',
-        lang.morphType&&'<span class="tt-chip">'+lang.morphType+'</span>',
-        lang.toneSystem&&lang.toneSystem!=='none'&&'<span class="tt-chip">'+lang.toneSystem+' tone</span>',
-        lang.caseAlignment&&'<span class="tt-chip">'+lang.caseAlignment.replace(/_/g,'-')+'</span>'
-      ].filter(Boolean).join('');
-      const tipHtml='<div class="map-tooltip">'
-        +'<div class="tt-name">'+esc(lang.name)+nativePart+'</div>'
-        +'<div class="tt-family">'+esc(getFamName(lang.family))+branchPart+'</div>'
-        +(chipsPart?'<div class="tt-chips">'+chipsPart+'</div>':'')
-        +'<div class="tt-foot">'
-          +'<span>'+(spk?fmtN(spk)+' speakers':'unknown speakers')+'</span>'
-          +'<span>'+(lang.unescoStatus||'—').replace(/_/g,' ')+'</span>'
-        +'</div>'
-        +'<div class="tt-hint">Click to open full profile</div>'
-        +'</div>';
-      m.bindTooltip(tipHtml,{sticky:true,className:'gf-tooltip',offset:[10,-4],opacity:1});
-      m.addTo(leafletMap);
-      mapMarkers.push(m);
-    }catch(e){if(!markerErr){markerErr=e;console.error('[GF] marker error for',lang.id,e);}}
-  });
-  if(markerErr)console.error('[GF] renderMarkers had errors — first:',markerErr);
-  setupOverlapGroups();
-}
-
-function setupOverlapGroups(){
-  // Group markers that share the same approximate position (2dp ≈ 1km)
-  const groups={};
-  mapMarkers.forEach(m=>{
-    const ll=m.getLatLng();
-    const key=(Math.round(ll.lat*100)/100)+','+(Math.round(ll.lng*100)/100);
-    m._posKey=key;
-    m._origLatLng=null;
-    if(!groups[key])groups[key]=[];
-    groups[key].push(m);
-  });
-  Object.values(groups).filter(g=>g.length>1).forEach(group=>{
-    let expanded=false;
-    let collapseTimer=null;
-    const expand=()=>{
-      if(expanded)return;
-      expanded=true;
-      clearTimeout(collapseTimer);
-      const center=group[0]._origLatLng||group[0].getLatLng();
-      const zoom=leafletMap.getZoom();
-      // Spread radius in degrees, shrinks as you zoom in
-      const spread=Math.max(0.08,0.9/Math.pow(1.7,zoom));
-      group.forEach((m,i)=>{
-        if(!m._origLatLng)m._origLatLng=m.getLatLng();
-        const angle=(2*Math.PI*i)/group.length-Math.PI/2;
-        m.setLatLng([center.lat+spread*Math.cos(angle),center.lng+spread*Math.sin(angle)]);
-        m.bringToFront();
-        // Draw a thin line from center to each spread node
-        if(!m._spiderLine){
-          m._spiderLine=L.polyline([center,[center.lat+spread*Math.cos(angle),center.lng+spread*Math.sin(angle)]],
-            {color:'rgba(255,255,255,0.35)',weight:1,dashArray:'3,3'}).addTo(leafletMap);
-        }
-      });
-    };
-    const collapse=()=>{
-      expanded=false;
-      group.forEach(m=>{
-        if(m._origLatLng){m.setLatLng(m._origLatLng);m._origLatLng=null;}
-        if(m._spiderLine){leafletMap.removeLayer(m._spiderLine);m._spiderLine=null;}
-      });
-    };
-    const scheduleCollapse=()=>{
-      clearTimeout(collapseTimer);
-      collapseTimer=setTimeout(collapse,180);
-    };
-    group.forEach(m=>{
-      m.on('mouseover',expand);
-      m.on('mouseout',scheduleCollapse);
-    });
+    const r=Math.max(5,Math.min(14,Math.log10(lang.totalSpeakers||lang.l1Speakers||1000)*2));
+    const col=getMarkerColor(lang);
+    const m=L.circleMarker([lang.lat,lang.lon],{radius:r,fillColor:col,color:'rgba(255,255,255,0.55)',weight:1.5,opacity:1,fillOpacity:.85,bubblingMouseEvents:false});
+    m.on('mouseover',function(){this.setRadius(r+3);this.setStyle({fillOpacity:1,weight:2});});
+    m.on('mouseout',function(){this.setRadius(r);this.setStyle({fillOpacity:.85,weight:1.5});});
+    m.on('click',()=>openDetail(lang.id));
+    m.bindTooltip(`<strong>${lang.name}</strong><br><span style="font-size:10px;color:#aaa">${getFamName(lang.family)}</span>`,{sticky:true,className:'',offset:[0,-4]});
+    m.addTo(leafletMap);
+    mapMarkers.push(m);
   });
 }
 
 function renderLegend(){
   const lg=document.getElementById('mapLegend');
-  let title='',rows=[];
+  let rows=[];
   if(mapLayerMode==='family'){
-    title='Language Family';
     const shown=(typeof FAMILY_TREE!=='undefined'?Object.values(FAMILY_TREE):[]).slice(0,14);
     shown.forEach(f=>rows.push(`<div class="leg-row"><div class="leg-dot" style="background:${f.color}"></div>${f.name}</div>`));
     rows.push(`<div class="leg-row"><div class="leg-dot" style="background:#71717a"></div>Other</div>`);
   } else if(mapLayerMode==='endangerment'){
-    title='Endangerment Status';
-    [
-      [ENDANG_COLORS.safe,'Safe — full intergenerational transmission'],
-      [ENDANG_COLORS.vulnerable,'Vulnerable — mostly spoken by adults'],
-      [ENDANG_COLORS.definitely_endangered,'Endangered — children not learning'],
-      [ENDANG_COLORS.severely_endangered,'Severely Endangered — few elderly speakers'],
-      [ENDANG_COLORS.critically_endangered,'Critically Endangered — near extinction'],
-      [ENDANG_COLORS.extinct,'Extinct — no living native speakers']
-    ].forEach(([c,l])=>rows.push(`<div class="leg-row"><div class="leg-dot" style="background:${c}"></div><span style="font-size:10px">${l}</span></div>`));
-  } else if(mapLayerMode==='speakers'){
-    title='Speaker Count';
-    [
-      ['#06b6d4','500 million +'],
-      ['#10b981','100 – 500 million'],
-      ['#84cc16','10 – 100 million'],
-      ['#eab308','1 – 10 million'],
-      ['#f97316','100 000 – 1 million'],
-      ['#ef4444','10 000 – 100 000'],
-      ['#9f1239','Fewer than 10 000'],
-      ['#6b7280','Unknown']
-    ].forEach(([c,l])=>rows.push(`<div class="leg-row"><div class="leg-dot" style="background:${c}"></div><span style="font-size:10px">${l}</span></div>`));
+    [['#34d399','Safe'],['#fbbf24','Vulnerable'],['#fb923c','Endangered'],['#f87171','Severely End.'],['#ef4444','Critical'],['#52525b','Extinct']].forEach(([c,l])=>rows.push(`<div class="leg-row"><div class="leg-dot" style="background:${c}"></div>${l}</div>`));
+  } else if(mapLayerMode==='wordorder'){
+    [['#60a5fa','SOV'],['#34d399','SVO'],['#fbbf24','VSO'],['#f87171','VOS'],['#a78bfa','OVS'],['#fb923c','OSV'],['#71717a','Other']].forEach(([c,l])=>rows.push(`<div class="leg-row"><div class="leg-dot" style="background:${c}"></div>${l}</div>`));
+  } else if(mapLayerMode==='morphology'){
+    [['#60a5fa','Isolating'],['#34d399','Agglutinative'],['#fbbf24','Fusional'],['#f87171','Polysynthetic'],['#71717a','Other']].forEach(([c,l])=>rows.push(`<div class="leg-row"><div class="leg-dot" style="background:${c}"></div>${l}</div>`));
+  } else if(mapLayerMode==='tone'){
+    [['#71717a','No tone'],['#fbbf24','Simple tone'],['#f87171','Complex tone']].forEach(([c,l])=>rows.push(`<div class="leg-row"><div class="leg-dot" style="background:${c}"></div>${l}</div>`));
   }
+  const title=mapLayerMode==='wordorder'?'Word Order':mapLayerMode==='morphology'?'Morphology':mapLayerMode.charAt(0).toUpperCase()+mapLayerMode.slice(1);
   lg.innerHTML=`<div class="leg-title">${title}</div>${rows.join('')}`;
 }
 
 function setupMapEvents(){
-  ['mapSearch','hdFamily','hdRegion','hdStatus','fWordOrder','fMorph','fTone'].forEach(id=>{
+  ['mapSearch','hdFamily','hdRegion','hdStatus','fWordOrder','fMorph','fTone','fScript'].forEach(id=>{
     const el=document.getElementById(id);
     el.addEventListener(id==='mapSearch'?'input':'change',renderMarkers);
   });
@@ -1147,65 +960,21 @@ function setupMapEvents(){
 }
 
 function resetFilters(){
-  ['mapSearch','hdFamily','hdRegion','hdStatus','fWordOrder','fMorph','fTone'].forEach(id=>document.getElementById(id).value='');
+  ['mapSearch','hdFamily','hdRegion','hdStatus','fWordOrder','fMorph','fTone','fScript'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('fExtinct').checked=false;
   renderMarkers();
 }
 
 // ── DETAIL PANEL ──
-function buildCitationsHtml(langId){
-  const refs=LANG_CITATIONS[langId];
-  if(!refs||!refs.length)return'';
-  const items=refs.map(function(r){
-    return'<div style="background:var(--raised);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;margin-bottom:6px">'
-      +'<div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:3px">'+esc(r.t)+'</div>'
-      +'<div style="font-size:11px;color:var(--ink-mid);margin-bottom:4px">'+esc(r.a)+' ('+esc(String(r.y))+') — <em>'+esc(r.s)+'</em></div>'
-      +(r.note?'<div style="font-size:10px;color:var(--ink-low);line-height:1.5">'+esc(r.note)+'</div>':'')
-      +'</div>';
-  }).join('');
-  return'<div class="dp-sec"><div class="dp-sec-title">Key Research &amp; References</div>'+items+'</div>';
-}
-
-function buildSampleHtml(langId){
-  const s=LANG_SAMPLES[langId];
-  if(!s)return'';
-  return'<div class="dp-sec"><div class="dp-sec-title">Language Sample</div>'
-    +'<div style="background:var(--raised);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px">'
-    +'<div style="font-size:1rem;line-height:1.65;color:var(--ink);margin-bottom:'+(s.roman?'6px':'10px')+';font-style:italic">&ldquo;'+esc(s.text)+'&rdquo;</div>'
-    +(s.roman?'<div style="font-size:11px;color:var(--ink-mid);margin-bottom:8px;font-family:var(--font-m);font-style:normal">'+esc(s.roman)+'</div>':'')
-    +(s.note?'<div style="font-size:11px;color:var(--ink-low);line-height:1.55">'+esc(s.note)+'</div>':'')
-    +'</div></div>';
-}
-function buildSimHtml(langId,mode){
-  const sim=getSimilarLangs(langId,3);
-  if(!sim.length)return'';
-  const cards=sim.map(function(item){
-    const s=item.lang;
-    const onclick=mode==='panel'
-      ?'openDetail(\''+esc(s.id)+'\')'
-      :'switchDrawerTab(\'explorer\');showExplDetail(\''+esc(s.id)+'\')';
-    return'<div class="dp-field" style="cursor:pointer" onclick="'+onclick+'">'
-      +'<div class="dp-lbl">'+esc(getFamName(s.family))+'</div>'
-      +'<div class="dp-val" style="color:var(--cyan)">'+esc(s.name)+'</div>'
-      +'<div class="dp-cite">'+Math.round(item.score*100)+'% similarity &middot; '+esc(s.id)+'</div>'
-      +'</div>';
-  }).join('');
-  return'<div class="dp-sec"><div class="dp-sec-title">Most Similar Languages <span style="font-size:9px;font-weight:400;opacity:.6">&mdash; intelligibility + grammar</span></div>'
-    +'<div class="dp-grid">'+cards+'</div></div>';
-}
-
 function openDetail(langId){
   const lang=getLang(langId);
   if(!lang)return;
   const col=getFHex(lang.family);
   const countries=(lang.countries||[]).map(c=>(typeof COUNTRY_DATA!=='undefined'&&COUNTRY_DATA[c])?COUNTRY_DATA[c].name:c).join(', ');
   const officialIn=(lang.officialIn||[]).map(c=>(typeof COUNTRY_DATA!=='undefined'&&COUNTRY_DATA[c])?COUNTRY_DATA[c].name:c).join(', ');
-  const sampleHtml=buildSampleHtml(lang.id);
-  const simHtml=buildSimHtml(lang.id,'panel');
-  const citHtml=buildCitationsHtml(lang.id);
   document.getElementById('dpTitle').textContent=lang.name;
   document.getElementById('dpBody').innerHTML=`
-    <div class="dp-name">${esc(lang.name)}</div>
+    <div class="dp-name">${esc(lang.name)} <button class="dp-hear" title="Hear it spoken" aria-label="Hear ${esc(lang.name)} spoken" onclick="speakLang('${esc(lang.nativeName||lang.name).replace(/'/g,"\\'")}','${esc(lang.iso639_1||'')}')">🔊</button></div>
     ${lang.nativeName&&lang.nativeName!==lang.name?`<div class="dp-native">${esc(lang.nativeName)}</div>`:''}
     ${lang.alternateNames&&lang.alternateNames.length?`<div class="dp-alts">Also known as: ${lang.alternateNames.map(esc).join(', ')}</div>`:''}
     <div class="dp-tags">
@@ -1240,7 +1009,7 @@ function openDetail(langId){
     <div class="dp-sec">
       <div class="dp-sec-title">Endangerment <span style="font-size:9px;font-weight:400;opacity:.6">— UNESCO Atlas 3rd ed.</span></div>
       <div class="dp-grid">
-        <div class="dp-field dp-field-wide"><div class="dp-lbl">UNESCO Status</div><div class="dp-val">${(lang.unescoStatus||'safe').replace(/_/g,' ')}</div></div>
+        <div class="dp-field dp-field-wide"><div class="dp-lbl">UNESCO Status</div><div class="dp-val">${uf(lang.unescoStatus,' ','safe')}</div></div>
         ${lang.extinctionDate?`<div class="dp-field"><div class="dp-lbl">Last Attested</div><div class="dp-val">${lang.extinctionDate}</div></div>`:''}
       </div>
     </div>
@@ -1249,10 +1018,10 @@ function openDetail(langId){
       <div class="dp-grid">
         <div class="dp-field"><div class="dp-lbl">Word Order</div><div class="dp-val">${esc(lang.wordOrder||'—')}</div><div class="dp-cite">WALS 81A</div></div>
         <div class="dp-field"><div class="dp-lbl">Morphology</div><div class="dp-val">${esc(lang.morphType||'—')}</div><div class="dp-cite">WALS 26A</div></div>
-        <div class="dp-field"><div class="dp-lbl">Case Alignment</div><div class="dp-val">${(lang.caseAlignment||'—').replace(/_/g,'-')}</div><div class="dp-cite">WALS 98A</div></div>
+        <div class="dp-field"><div class="dp-lbl">Case Alignment</div><div class="dp-val">${uf(lang.caseAlignment,'-')}</div><div class="dp-cite">WALS 98A</div></div>
         <div class="dp-field"><div class="dp-lbl">Case Count</div><div class="dp-val">${lang.caseCount!=null?lang.caseCount:'—'}</div><div class="dp-cite">WALS 49A</div></div>
         <div class="dp-field"><div class="dp-lbl">Tone System</div><div class="dp-val">${esc(lang.toneSystem||'—')}</div><div class="dp-cite">PHOIBLE</div></div>
-        <div class="dp-field"><div class="dp-lbl">Gender System</div><div class="dp-val">${(lang.genderSystem||'—').replace(/_/g,' ')}</div><div class="dp-cite">WALS 30A</div></div>
+        <div class="dp-field"><div class="dp-lbl">Gender System</div><div class="dp-val">${uf(lang.genderSystem,' ')}</div><div class="dp-cite">WALS 30A</div></div>
         <div class="dp-field"><div class="dp-lbl">Evidentiality</div><div class="dp-val">${esc(lang.evidentiality||'—')}</div><div class="dp-cite">WALS 77A</div></div>
         <div class="dp-field"><div class="dp-lbl">Vowel Harmony</div><div class="dp-val">${lang.hasVowelHarmony?'Yes':'No'}</div><div class="dp-cite">WALS 116A</div></div>
         <div class="dp-field"><div class="dp-lbl">Clicks</div><div class="dp-val">${lang.hasClicks?'Yes':'No'}</div><div class="dp-cite">PHOIBLE</div></div>
@@ -1260,21 +1029,19 @@ function openDetail(langId){
         <div class="dp-field"><div class="dp-lbl">Nasal Vowels</div><div class="dp-val">${lang.hasNasalVowels?'Yes':'No'}</div><div class="dp-cite">PHOIBLE</div></div>
         <div class="dp-field"><div class="dp-lbl">Consonants</div><div class="dp-val">${esc(lang.consonantInventory||'—')}</div><div class="dp-cite">PHOIBLE 1A</div></div>
         <div class="dp-field"><div class="dp-lbl">Vowels</div><div class="dp-val">${esc(lang.vowelInventory||'—')}</div><div class="dp-cite">PHOIBLE 2A</div></div>
-        <div class="dp-field"><div class="dp-lbl">Definiteness</div><div class="dp-val">${(lang.definiteness||'—').replace(/_/g,' ')}</div><div class="dp-cite">WALS 37A</div></div>
-        <div class="dp-field"><div class="dp-lbl">Negation</div><div class="dp-val">${(lang.negationType||'—').replace(/_/g,' ')}</div><div class="dp-cite">WALS 143A</div></div>
+        <div class="dp-field"><div class="dp-lbl">Definiteness</div><div class="dp-val">${uf(lang.definiteness,' ')}</div><div class="dp-cite">WALS 37A</div></div>
+        <div class="dp-field"><div class="dp-lbl">Negation</div><div class="dp-val">${uf(lang.negationType,' ')}</div><div class="dp-cite">WALS 143A</div></div>
       </div>
     </div>
     ${lang.scripts&&lang.scripts.length?`
     <div class="dp-sec">
       <div class="dp-sec-title">Writing Systems</div>
       <div class="dp-grid">
-        ${lang.scripts.map(s=>`<div class="dp-field"><div class="dp-lbl">${esc(s.name)}${s.isPrimary?' (primary)':''}</div><div class="dp-val">${esc(s.type)} · ${esc(s.direction.toUpperCase())}</div></div>`).join('')}
+        ${lang.scripts.map(s=>`<div class="dp-field"><div class="dp-lbl">${esc(s.name)}${s.isPrimary?' (primary)':''}</div><div class="dp-val">${esc(s.type)} · ${esc(String(s.direction||'').toUpperCase())}</div></div>`).join('')}
       </div>
     </div>`:''}
-    ${sampleHtml}
-    ${simHtml}
-    ${citHtml}
-    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-ghost btn-sm" onclick="compareLang('${esc(lang.id)}')">⇄ Compare</button>
       <button class="btn btn-ghost btn-sm" onclick="closeDetail();openMenu('explorer');showExplDetail('${esc(lang.id)}')">Full Explorer Profile →</button>
     </div>
   `;
@@ -1349,9 +1116,8 @@ function renderExplorer(){
   const langs=getExFiltered();
   document.getElementById('exCount').textContent=langs.length+' language'+(langs.length!==1?'s':'')+' found';
   const toShow=langs.slice(0,60);
-  document.getElementById('exResults').innerHTML=toShow.map(l=>{
-    const samp=LANG_SAMPLES[l.id];
-    return`<div class="lang-card" onclick="showExplDetail('${esc(l.id)}')" tabindex="0" role="button" aria-label="${esc(l.name)}">
+  document.getElementById('exResults').innerHTML=toShow.map(l=>`
+    <div class="lang-card" onclick="showExplDetail('${esc(l.id)}')" tabindex="0" role="button" aria-label="${esc(l.name)}">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3px">
         <div><div class="lc-name">${esc(l.name)}</div>${l.nativeName&&l.nativeName!==l.name?`<div class="lc-native">${esc(l.nativeName)}</div>`:''}</div>
         <span class="lc-iso">${esc(l.id)}</span>
@@ -1360,13 +1126,12 @@ function renderExplorer(){
         <span class="fam-tag" style="background:${getFHex(l.family)}18;color:${getFHex(l.family)}">${esc(getFamName(l.family))}</span>
         ${endangBadge(l.unescoStatus)}
       </div>
-      ${samp?`<div style="font-size:11px;color:var(--ink-mid);font-style:italic;margin:7px 0 4px;line-height:1.45;border-left:2px solid var(--cyan-dim);padding-left:8px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">"${esc(samp.text.length>80?samp.text.slice(0,77)+'…':samp.text)}"</div>`:''}
-      <div class="lc-foot" style="margin-top:${samp?'4px':'8px'}">
+      <div class="lc-foot">
         <span>${fmtN(l.totalSpeakers||l.l1Speakers||0)} speakers</span>
         <span>${esc(l.wordOrder||'—')} · ${esc(l.morphType||'—')}</span>
       </div>
-    </div>`;
-  }).join('')+(langs.length>60?`<div style="text-align:center;padding:18px;color:var(--ink-low);font-size:12px;grid-column:1/-1">Showing 60 of ${langs.length} — refine your search to see more</div>`:'');
+    </div>
+  `).join('')+(langs.length>60?`<div style="text-align:center;padding:18px;color:var(--ink-low);font-size:12px;grid-column:1/-1">Showing 60 of ${langs.length} — refine search to see more</div>`:'');
   // Ensure detail div exists
   if(!document.getElementById('exDetail')){
     const d=document.createElement('div');d.id='exDetail';d.style.display='none';
@@ -1408,14 +1173,14 @@ function showExplDetail(langId){
         <div class="dp-field"><div class="dp-lbl">L1 Speakers</div><div class="dp-val">${(lang.l1Speakers||0).toLocaleString()}</div></div>
         <div class="dp-field"><div class="dp-lbl">L2 Speakers</div><div class="dp-val">${(lang.l2Speakers||0).toLocaleString()}</div></div>
         <div class="dp-field"><div class="dp-lbl">Total Speakers</div><div class="dp-val">${(lang.totalSpeakers||lang.l1Speakers||0).toLocaleString()}</div></div>
-        <div class="dp-field"><div class="dp-lbl">UNESCO Status</div><div class="dp-val">${(lang.unescoStatus||'safe').replace(/_/g,' ')}</div></div>
+        <div class="dp-field"><div class="dp-lbl">UNESCO Status</div><div class="dp-val">${uf(lang.unescoStatus,' ','safe')}</div></div>
         <div class="dp-field"><div class="dp-lbl">Region</div><div class="dp-val">${esc(lang.macroRegion||'—')}</div></div>
         <div class="dp-field"><div class="dp-lbl">Word Order</div><div class="dp-val">${esc(lang.wordOrder||'—')}</div></div>
         <div class="dp-field"><div class="dp-lbl">Morphology</div><div class="dp-val">${esc(lang.morphType||'—')}</div></div>
-        <div class="dp-field"><div class="dp-lbl">Case Alignment</div><div class="dp-val">${(lang.caseAlignment||'—').replace(/_/g,'-')}</div></div>
+        <div class="dp-field"><div class="dp-lbl">Case Alignment</div><div class="dp-val">${uf(lang.caseAlignment,'-')}</div></div>
         <div class="dp-field"><div class="dp-lbl">Case Count</div><div class="dp-val">${lang.caseCount!=null?lang.caseCount:'—'}</div></div>
         <div class="dp-field"><div class="dp-lbl">Tone System</div><div class="dp-val">${esc(lang.toneSystem||'—')}</div></div>
-        <div class="dp-field"><div class="dp-lbl">Gender System</div><div class="dp-val">${(lang.genderSystem||'—').replace(/_/g,' ')}</div></div>
+        <div class="dp-field"><div class="dp-lbl">Gender System</div><div class="dp-val">${uf(lang.genderSystem,' ')}</div></div>
         <div class="dp-field"><div class="dp-lbl">Evidentiality</div><div class="dp-val">${esc(lang.evidentiality||'—')}</div></div>
         <div class="dp-field"><div class="dp-lbl">Vowel Harmony</div><div class="dp-val">${lang.hasVowelHarmony?'Yes':'No'}</div></div>
         <div class="dp-field"><div class="dp-lbl">Clicks</div><div class="dp-val">${lang.hasClicks?'Yes':'No'}</div></div>
@@ -1423,15 +1188,12 @@ function showExplDetail(langId){
         <div class="dp-field"><div class="dp-lbl">Nasal Vowels</div><div class="dp-val">${lang.hasNasalVowels?'Yes':'No'}</div></div>
         <div class="dp-field"><div class="dp-lbl">Consonants</div><div class="dp-val">${esc(lang.consonantInventory||'—')}</div></div>
         <div class="dp-field"><div class="dp-lbl">Vowels</div><div class="dp-val">${esc(lang.vowelInventory||'—')}</div></div>
-        <div class="dp-field"><div class="dp-lbl">Definiteness</div><div class="dp-val">${(lang.definiteness||'—').replace(/_/g,' ')}</div></div>
-        <div class="dp-field"><div class="dp-lbl">Negation</div><div class="dp-val">${(lang.negationType||'—').replace(/_/g,' ')}</div></div>
+        <div class="dp-field"><div class="dp-lbl">Definiteness</div><div class="dp-val">${uf(lang.definiteness,' ')}</div></div>
+        <div class="dp-field"><div class="dp-lbl">Negation</div><div class="dp-val">${uf(lang.negationType,' ')}</div></div>
       </div>
       ${countries?`<div style="font-size:12px;color:var(--ink-low);margin-bottom:6px"><strong style="text-transform:uppercase;font-size:9px;letter-spacing:.06em">Spoken in: </strong>${esc(countries)}</div>`:''}
       ${officialIn?`<div style="font-size:12px;color:var(--ink-low);margin-bottom:16px"><strong style="text-transform:uppercase;font-size:9px;letter-spacing:.06em">Official in: </strong>${esc(officialIn)}</div>`:''}
-      ${lang.scripts&&lang.scripts.length?`<div style="margin-top:6px"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-low);margin-bottom:8px">Writing Systems</div><div style="display:flex;gap:8px;flex-wrap:wrap">${lang.scripts.map(s=>`<div class="dp-field"><div class="dp-lbl">${esc(s.name)}</div><div class="dp-val">${esc(s.type)} · ${esc(s.direction.toUpperCase())}</div></div>`).join('')}</div></div>`:''}
-      ${buildSampleHtml(lang.id)}
-      ${buildSimHtml(lang.id,'explorer')}
-      ${buildCitationsHtml(lang.id)}
+      ${lang.scripts&&lang.scripts.length?`<div style="margin-top:6px"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-low);margin-bottom:8px">Writing Systems</div><div style="display:flex;gap:8px;flex-wrap:wrap">${lang.scripts.map(s=>`<div class="dp-field"><div class="dp-lbl">${esc(s.name)}</div><div class="dp-val">${esc(s.type)} · ${esc(String(s.direction||'').toUpperCase())}</div></div>`).join('')}</div></div>`:''}
       <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);font-size:11px;color:var(--ink-dim)">
         Classification: Glottolog 5.0 · Demographics: Ethnologue 27th ed. · Typology: WALS, PHOIBLE 2.0 · Endangerment: UNESCO Atlas 3rd ed.
       </div>
@@ -1606,28 +1368,51 @@ function addCompSlot(){
   if(compSlots.length>=5)document.getElementById('addCompBtn').style.display='none';
 }
 
+// Open the comparison tool from anywhere (e.g. the map detail panel), preloaded with a language
+function compareLang(langId){
+  closeDetail();
+  openMenu('tools');
+  document.querySelectorAll('.tool-tab').forEach(t=>{const on=t.dataset.tool==='comparison';t.classList.toggle('active',on);t.setAttribute('aria-selected',String(on));});
+  document.querySelectorAll('.tool-panel').forEach(p=>p.classList.toggle('active',p.id==='tool-comparison'));
+  if(compSlots.length<2)addCompSlot();
+  compSlots[0]=langId;
+  const sel0=document.getElementById('comp-0');if(sel0)sel0.value=langId;
+  renderComp();
+}
+
 function renderComp(){
   const sel=compSlots.filter(s=>s).map(id=>getLang(id)).filter(Boolean);
   const c=document.getElementById('compResults');
   if(sel.length<2){c.innerHTML='<p style="color:var(--ink-low);font-size:13px">Select at least 2 languages to compare.</p>';return}
   const features=[
     {key:'family',lbl:'Family',fmt:v=>getFamName(v)},
-    {key:'wordOrder',lbl:'Word Order'},{key:'morphType',lbl:'Morphological Type'},
-    {key:'caseAlignment',lbl:'Case Alignment',fmt:v=>(v||'—').replace(/_/g,'-')},
-    {key:'caseCount',lbl:'Case Count'},{key:'toneSystem',lbl:'Tone System'},
-    {key:'genderSystem',lbl:'Gender System',fmt:v=>(v||'—').replace(/_/g,' ')},
-    {key:'evidentiality',lbl:'Evidentiality'},
-    {key:'hasVowelHarmony',lbl:'Vowel Harmony',fmt:v=>v?'Yes':'No'},
-    {key:'hasClicks',lbl:'Clicks',fmt:v=>v?'Yes':'No'},{key:'hasEjectives',lbl:'Ejectives',fmt:v=>v?'Yes':'No'},
-    {key:'consonantInventory',lbl:'Consonant Inventory'},{key:'vowelInventory',lbl:'Vowel Inventory'},
-    {key:'definiteness',lbl:'Definiteness',fmt:v=>(v||'—').replace(/_/g,' ')},
-    {key:'negationType',lbl:'Negation',fmt:v=>(v||'—').replace(/_/g,' ')},
+    {key:'wordOrder',lbl:'Word Order',score:1},{key:'morphType',lbl:'Morphological Type',score:1},
+    {key:'caseAlignment',lbl:'Case Alignment',fmt:v=>(v||'—').replace(/_/g,'-'),score:1},
+    {key:'caseCount',lbl:'Case Count',score:1},{key:'toneSystem',lbl:'Tone System',score:1},
+    {key:'genderSystem',lbl:'Gender System',fmt:v=>(v||'—').replace(/_/g,' '),score:1},
+    {key:'evidentiality',lbl:'Evidentiality',score:1},
+    {key:'hasVowelHarmony',lbl:'Vowel Harmony',fmt:v=>v?'Yes':'No',score:1},
+    {key:'hasClicks',lbl:'Clicks',fmt:v=>v?'Yes':'No',score:1},{key:'hasEjectives',lbl:'Ejectives',fmt:v=>v?'Yes':'No',score:1},
+    {key:'consonantInventory',lbl:'Consonant Inventory',score:1},{key:'vowelInventory',lbl:'Vowel Inventory',score:1},
+    {key:'definiteness',lbl:'Definiteness',fmt:v=>(v||'—').replace(/_/g,' '),score:1},
+    {key:'negationType',lbl:'Negation',fmt:v=>(v||'—').replace(/_/g,' '),score:1},
     {key:'totalSpeakers',lbl:'Total Speakers',fmt:v=>fmtN(v||0)},
     {key:'unescoStatus',lbl:'Endangerment',fmt:v=>(v||'—').replace(/_/g,' ')}
   ];
-  c.innerHTML=`<div class="tbl-wrap"><table class="comp-table"><thead><tr><th>Feature</th>${sel.map(l=>`<th>${esc(l.name)}</th>`).join('')}</tr></thead><tbody>
-    ${features.map(f=>{const vals=sel.map(l=>f.fmt?f.fmt(l[f.key]):(l[f.key]??'—'));const same=vals.every(v=>v===vals[0])&&vals[0]!=='—';return`<tr${same?' class="match"':''}><td>${f.lbl}</td>${vals.map(v=>`<td>${esc(String(v))}</td>`).join('')}</tr>`;}).join('')}
-  </tbody></table></div>`;
+  const scored=features.filter(f=>f.score);
+  let matches=0;
+  scored.forEach(f=>{const vals=sel.map(l=>l[f.key]);if(vals.every(v=>v===vals[0]&&v!=null&&v!==''))matches++;});
+  const pct=Math.round(matches/scored.length*100);
+  const simCol=pct>=66?'var(--safe)':pct>=33?'var(--vuln)':'var(--severe)';
+  const head=`<tr><th>Feature</th>${sel.map(l=>{const col=getFHex(l.family);return`<th><div class="comp-lh"><span class="comp-lh-name">${esc(l.name)}</span><span class="fam-tag" style="background:${col}18;color:${col}">${esc(getFamName(l.family))}</span></div></th>`;}).join('')}</tr>`;
+  c.innerHTML=`
+    <div class="comp-sim" style="border-color:${simCol}40">
+      <div class="comp-sim-num" style="color:${simCol}">${pct}%</div>
+      <div class="comp-sim-lbl">Typological similarity<br><span>${matches} of ${scored.length} core features shared${sel.length>2?' across all '+sel.length:''}</span></div>
+    </div>
+    <div class="tbl-wrap"><table class="comp-table"><thead>${head}</thead><tbody>
+    ${features.map(f=>{const raw=sel.map(l=>l[f.key]);const vals=sel.map(l=>f.fmt?f.fmt(l[f.key]):(l[f.key]??'—'));const same=raw.every(v=>v===raw[0]&&v!=null&&v!=='');return`<tr${same&&f.score?' class="match"':''}><td>${f.lbl}</td>${vals.map(v=>`<td>${esc(String(v))}</td>`).join('')}</tr>`;}).join('')}
+    </tbody></table></div>`;
 }
 
 function runTimeline(){
@@ -1672,302 +1457,41 @@ function runWorldStats(){
   </div>`;
 }
 
-// ── PEER-REVIEWED RESEARCH CITATIONS ──
-const LANG_CITATIONS={
-  eng:[
-    {a:'Crystal, D.',t:'English as a Global Language',s:'Cambridge University Press',y:2003,note:'Definitive account of English\'s spread as the world\'s lingua franca; traces its historical, social, and political causes.'},
-    {a:'Huddleston, R. & Pullum, G. K.',t:'The Cambridge Grammar of the English Language',s:'Cambridge University Press',y:2002,note:'The most comprehensive modern reference grammar of English; 1,860 pages of rigorous syntactic description.'},
-    {a:'Labov, W.',t:'Principles of Linguistic Change (3 vols.)',s:'Blackwell',y:'1994–2010',note:'Foundational sociolinguistic work tracing systematic phonological change in American English communities.'}
-  ],
-  spa:[
-    {a:'Penny, R.',t:'A History of the Spanish Language',s:'Cambridge University Press',y:2002,note:'Standard historical-linguistic account from Vulgar Latin to modern dialects across the Spanish-speaking world.'},
-    {a:'Real Academia Española & ASALE',t:'Nueva gramática de la lengua española',s:'Espasa',y:2009,note:'The official descriptive grammar of Spanish; three volumes covering morphology, syntax, and phonology.'},
-    {a:'Lipski, J. M.',t:'Latin American Spanish',s:'Longman',y:1994,note:'Comprehensive regional survey of dialectal variation across all Latin American Spanish-speaking nations.'}
-  ],
-  cmn:[
-    {a:'Li, C. N. & Thompson, S. A.',t:'Mandarin Chinese: A Functional Reference Grammar',s:'University of California Press',y:1981,note:'The canonical reference grammar of Mandarin; considered essential for cross-linguistic typological work.'},
-    {a:'Norman, J.',t:'Chinese',s:'Cambridge University Press',y:1988,note:'Standard historical and comparative overview of the Sinitic language family within the Cambridge Language Surveys series.'},
-    {a:'DeFrancis, J.',t:'The Chinese Language: Fact and Fantasy',s:'University of Hawaii Press',y:1984,note:'Seminal work addressing misconceptions about Chinese script, dialects, and linguistic unity.'}
-  ],
-  fra:[
-    {a:'Lodge, R. A.',t:'French: From Dialect to Standard',s:'Routledge',y:1993,note:'Traces French from Gallo-Romance roots through standardisation; key text for historical sociolinguistics.'},
-    {a:'Riegel, M., Pellat, J.-C. & Rioul, R.',t:'Grammaire méthodique du français',s:'PUF',y:2009,note:'The leading academic descriptive grammar of contemporary French; widely used in French universities.'}
-  ],
-  arb:[
-    {a:'Holes, C.',t:'Modern Arabic: Structures, Functions and Varieties',s:'Georgetown University Press',y:2004,note:'Comprehensive description of Modern Standard Arabic and its dialectal variation across the Arab world.'},
-    {a:'Owens, J. (ed.)',t:'The Oxford Handbook of Arabic Linguistics',s:'Oxford University Press',y:2013,note:'State-of-the-art survey covering phonology, morphology, syntax, sociolinguistics, and language contact.'},
-    {a:'Versteegh, K.',t:'The Arabic Language',s:'Edinburgh University Press',y:2001,note:'Accessible scholarly overview of Arabic\'s history, structure, and spread; covers Classical, Modern Standard, and colloquial varieties.'}
-  ],
-  rus:[
-    {a:'Wade, T.',t:'A Comprehensive Russian Grammar',s:'Blackwell',y:2011,note:'Standard pedagogical and reference grammar of Russian; third edition updated with corpus-based examples.'},
-    {a:'Comrie, B. & Stone, G.',t:'The Russian Language Since the Revolution',s:'Oxford University Press',y:1978,note:'Classic sociolinguistic study of how Soviet ideology shaped Russian vocabulary, grammar, and style.'}
-  ],
-  deu:[
-    {a:'Durrell, M.',t:'Hammer\'s German Grammar and Usage',s:'Routledge',y:2017,note:'The standard English-language reference grammar for modern German; 6th edition with corpus examples.'},
-    {a:'Salmons, J.',t:'A History of German: What the Past Reveals About Today',s:'Oxford University Press',y:2012,note:'Accessible scholarly history of German from Proto-Germanic through modern standard and dialectal varieties.'}
-  ],
-  por:[
-    {a:'Cunha, C. & Cintra, L. F. L.',t:'Nova Gramática do Português Contemporâneo',s:'João Sá da Costa',y:2014,note:'The authoritative descriptive grammar of contemporary Portuguese; covers both European and Brazilian varieties.'},
-    {a:'Jensen, J. B.',t:'Portuguese: A Linguistic Introduction',s:'Cambridge University Press',y:1999,note:'Overview of Portuguese phonology, morphology, syntax, and sociolinguistic context within the Cambridge series.'}
-  ],
-  hin:[
-    {a:'McGregor, R. S.',t:'Outline of Hindi Grammar',s:'Oxford University Press',y:1995,note:'Standard concise reference grammar for Hindi; covers phonology, script, morphology, and syntax.'},
-    {a:'Shapiro, M. C. & Schiffman, H. F.',t:'Language and Society in South Asia',s:'Mouton de Gruyter',y:1981,note:'Foundational sociolinguistic survey of Hindi and its relationship to Urdu, Hindustani, and regional varieties.'}
-  ],
-  jpn:[
-    {a:'Shibatani, M.',t:'The Languages of Japan',s:'Cambridge University Press',y:1990,note:'Comprehensive typological description of Japanese; examines Ryukyuan languages and the Japonic family.'},
-    {a:'Kuno, S.',t:'The Structure of the Japanese Language',s:'MIT Press',y:1973,note:'Influential generative-based analysis of Japanese syntax; classic reference for topic-comment structure.'}
-  ],
-  kor:[
-    {a:'Sohn, H.-M.',t:'The Korean Language',s:'Cambridge University Press',y:1999,note:'The standard typological description of Korean; covers phonology, morphology, syntax, and sociolinguistics.'},
-    {a:'Ramsey, S. R.',t:'The Languages of China (Ch. 12: Korean)',s:'Princeton University Press',y:1987,note:'Places Korean in its historical and comparative context among the languages of East Asia.'}
-  ],
-  tur:[
-    {a:'Lewis, G. L.',t:'Turkish Grammar',s:'Oxford University Press',y:2000,note:'The definitive reference grammar of Turkish; covers phonology, morphology, syntax, and derivation; essential for any serious student of Turkic linguistics.'},
-    {a:'Kornfilt, J.',t:'Turkish',s:'Routledge',y:1997,note:'The most thorough modern linguistic description of Turkish; detailed generative and typological analysis of agglutination, SOV structure, and case system.'},
-    {a:'Johanson, L. & Csató, É. Á. (eds.)',t:'The Turkic Languages',s:'Routledge',y:1998,note:'The single most important reference for all Turkic languages; covers history, typology, phonology, and individual language descriptions. Essential.'},
-    {a:'Johanson, L.',t:'Turkic',s:'Cambridge University Press',y:2021,note:'Latest Cambridge Language Survey treatment of Turkic as a family; synthesises decades of Johanson\'s own fieldwork and comparative typology.'},
-    {a:'Göksel, A. & Kerslake, C.',t:'Turkish: A Comprehensive Grammar',s:'Routledge',y:2005,note:'Most comprehensive pedagogical reference grammar of Turkish; 600+ pages with extensive corpus-based examples covering all grammatical categories.'},
-    {a:'Underhill, R.',t:'Turkish Grammar',s:'MIT Press',y:1976,note:'Classic generative treatment of Turkish; introduced Turkish to formal linguistics and remains influential in syntactic theory.'}
-  ],
-  azj:[
-    {a:'Johanson, L.',t:'Azerbaijani',s:'In: The Turkic Languages (Johanson & Csató, eds.)',y:1998,note:'Standard descriptive account of Azerbaijani phonology, morphology, and syntax within the comparative Turkic framework.'},
-    {a:'Comrie, B.',t:'The Languages of the Soviet Union',s:'Cambridge University Press',y:1981,note:'Places Azerbaijani in its sociolinguistic context; covers Turkic spread across the former Soviet space.'},
-    {a:'Schönig, C.',t:'Azerbaijani',s:'Lincom Europa',y:1998,note:'Concise typological sketch of Azerbaijani with attention to its divergence from Turkish and proximity to Iranian contact features.'}
-  ],
-  uzb:[
-    {a:'Sjoberg, A. F.',t:'Uzbek Structural Grammar',s:'Indiana University',y:1963,note:'Foundational structural analysis of Uzbek; still the most detailed early linguistic description of the Karluk branch.'},
-    {a:'Nauta, H. P.',t:'Uzbek',s:'In: The Turkic Languages (Johanson & Csató, eds.)',y:1998,note:'Modern descriptive account of Uzbek; highlights its loss of vowel harmony relative to other Turkic languages.'},
-    {a:'Bodrogligeti, A.',t:'Modern Literary Uzbek',s:'Lincom Europa',y:2002,note:'Two-volume comprehensive grammar of contemporary Standard Uzbek; most detailed modern treatment available in English.'}
-  ],
-  kaz:[
-    {a:'Krippes, K. A.',t:'Kazakh',s:'Dunwoody Press',y:1993,note:'Practical and descriptive grammar of Kazakh; covers the full case system (7 cases), vowel harmony, and agglutinative morphology.'},
-    {a:'Johanson, L.',t:'Kazakh',s:'In: The Turkic Languages (Johanson & Csató, eds.)',y:1998,note:'Typological and comparative description of Kazakh; situates it within the Kipchak branch alongside Kyrgyz and Tatar.'},
-    {a:'McCollum, A. G.',t:'Kazakh Vowel Harmony',s:'PhD Dissertation, UCSD',y:2019,note:'State-of-the-art formal treatment of Kazakh\'s nine-vowel system and its intricate backness and rounding harmony patterns.'}
-  ],
-  kir:[
-    {a:'Imart, G.',t:'Kirghiz',s:'In: The Turkic Languages (Johanson & Csató, eds.)',y:1998,note:'Descriptive account of Kyrgyz morphology and phonology; notable for documenting the long vowels and vowel harmony of this Kipchak language.'},
-    {a:'Washington, J. N.',t:'Kyrgyz Vowel Harmony and Morphophonological Alternations',s:'PhD Dissertation, Indiana University',y:2016,note:'Formal treatment of Kyrgyz phonology using computational methods; foundational for modern Kyrgyz NLP.'}
-  ],
-  tuk:[
-    {a:'Clark, L.',t:'Turkmen',s:'In: The Turkic Languages (Johanson & Csató, eds.)',y:1998,note:'The primary modern linguistic description of Turkmen; highlights the language\'s conservative vowel system among Oghuz Turkic.'},
-    {a:'Dzhikiev, A.',t:'The Turkmen Language',s:'Ashkhabad',y:1975,note:'Soviet-era comprehensive description of Turkmen; remains a key reference for morphological categories and dialectal variation.'}
-  ],
-  tat:[
-    {a:'Berta, Á.',t:'Tatar',s:'In: The Turkic Languages (Johanson & Csató, eds.)',y:1998,note:'Standard descriptive account of Tatar within the Kipchak branch; covers the phonological innovations that distinguish Tatar from Bashkir.'},
-    {a:'Poppe, N.',t:'Tatar Manual',s:'Indiana University',y:1963,note:'Classic structural description of Tatar; foundational for Altaic studies and comparative Kipchak linguistics.'}
-  ],
-  bak:[
-    {a:'Poppe, N.',t:'Bashkir Manual',s:'Indiana University',y:1964,note:'Structural grammar of Bashkir; companion to the Tatar Manual; documents the close relationship and systematic phonological differences between the two.'},
-    {a:'Menges, K. H.',t:'The Turkic Languages and Peoples',s:'Harrassowitz',y:1968,note:'Pan-Turkic comparative work placing Bashkir in the context of Turkic linguistic history from Proto-Turkic to modern varieties.'}
-  ],
-  uig:[
-    {a:'Hahn, R. F.',t:'Spoken Uyghur',s:'University of Washington Press',y:1991,note:'The standard practical and descriptive grammar of Modern Uyghur; covers phonology, morphology, and syntax with native-speaker examples.'},
-    {a:'Jarring, G.',t:'Materials to the Knowledge of Eastern Turki',s:'Lund',y:1964,note:'Historical corpus-based study of Uyghur dialects across Xinjiang; key for dialectology and historical phonology.'},
-    {a:'Erdal, M.',t:'A Grammar of Old Turkic',s:'Brill',y:2004,note:'Essential reference for the Old Turkic ancestor of Uyghur; the Orkhon and Old Uyghur inscriptions are the oldest attested Turkic texts.'}
-  ],
-  chv:[
-    {a:'Krueger, J. R.',t:'Chuvash Manual',s:'Indiana University',y:1961,note:'The foundational English-language description of Chuvash; the only Oghur-branch Turkic language surviving today, with exceptional archaisms.'},
-    {a:'Johanson, L.',t:'Chuvash',s:'In: The Turkic Languages (Johanson & Csató, eds.)',y:1998,note:'Comparative treatment of Chuvash within Turkic; highlights its divergence as the sole representative of the ancient Oghur branch (cf. Bulgar Turkic).'}
-  ],
-  sah:[
-    {a:'Stachowski, M.',t:'Dolganischer Wortschatz',s:'Universität Kraków',y:1993,note:'Key lexicographic work relevant to Yakut/Sakha and its Siberian Turkic relatives; documents archaic vocabulary.'},
-    {a:'Ubryatova, E. I.',t:'Yakut',s:'In: The Turkic Languages (Johanson & Csató, eds.)',y:1998,note:'Descriptive account of Yakut (Sakha); the most geographically isolated Turkic language, spoken in northeastern Siberia, with notable contact features from Tungusic and Mongolic.'}
-  ],
-  crh:[
-    {a:'Csató, É. Á.',t:'Crimean Tatar',s:'In: The Turkic Languages (Johanson & Csató, eds.)',y:1998,note:'The primary modern linguistic description of Crimean Tatar; documents its Kipchak base with Oghuz and Oghur features from centuries of contact.'},
-    {a:'Johanson, L.',t:'Contact-induced change in a code-copying framework',s:'Language Contact and Change in the Arab World',y:2002,note:'Theoretical framework applied to Turkic contact situations; directly applicable to Crimean Tatar\'s multilayered lexical and grammatical history.'}
-  ],
-  swa:[
-    {a:'Nurse, D. & Hinnebusch, T.',t:'Swahili and Sabaki: A Linguistic History',s:'University of California Press',y:1993,note:'Definitive historical-comparative study establishing Swahili\'s classification within the Northeast Coast Bantu group.'},
-    {a:'Zawawi, S. M.',t:'Loanwords and Their Effect on the Classification of Swahili',s:'Brill',y:1979,note:'Analyses Arabic, Persian, Portuguese, and English borrowings and their integration into Swahili phonology.'}
-  ],
-  ell:[
-    {a:'Browning, R.',t:'Medieval and Modern Greek',s:'Cambridge University Press',y:1983,note:'Standard history of Greek from Byzantine to the modern period; documents the language\'s remarkable continuity.'},
-    {a:'Holton, D., Mackridge, P. & Philippaki-Warburton, I.',t:'Greek: A Comprehensive Grammar of the Modern Language',s:'Routledge',y:2012,note:'The most thorough descriptive grammar of Modern Greek; revised edition with updated corpus material.'}
-  ],
-  lat:[
-    {a:'Allen, J. H. & Greenough, J. B.',t:'New Latin Grammar',s:'Ginn & Company',y:1903,note:'Classic reference grammar; remains the standard English-language account of Classical Latin morphology and syntax.'},
-    {a:'Clackson, J. & Horrocks, G.',t:'The Blackwell History of the Latin Language',s:'Blackwell',y:2007,note:'Modern scholarly history of Latin from its Indo-European origins through Vulgar Latin and the Romance split.'}
-  ],
-  heb:[
-    {a:'Schwarzwald, O.',t:'Modern Hebrew',s:'LINCOM Europa',y:2001,note:'Describes the structure of revived Modern Hebrew, documenting Ben-Yehuda\'s standardisation and subsequent changes.'},
-    {a:'Zuckermann, G.',t:'Language Contact and Lexical Enrichment in Israeli Hebrew',s:'Palgrave Macmillan',y:2003,note:'Analyses Israeli Hebrew as a hybridised language influenced by Yiddish, Arabic, and European contact languages.'}
-  ],
-  fas:[
-    {a:'Lazard, G.',t:'A Grammar of Contemporary Persian',s:'Mazda Publishers',y:1992,note:'The standard reference grammar for Modern Persian (Farsi); translated from French for English-speaking linguists.'},
-    {a:'Windfuhr, G. (ed.)',t:'The Iranian Languages',s:'Routledge',y:2009,note:'Comprehensive typological survey of all Iranian languages, including Persian, Dari, Tajik, Kurdish, and Pashto.'}
-  ],
-  ben:[
-    {a:'Thompson, H.',t:'Bengali',s:'LINCOM Europa',y:2012,note:'Concise grammatical description of Bengali for comparative and typological purposes.'},
-    {a:'Chatterji, S. K.',t:'The Origin and Development of the Bengali Language',s:'University of Calcutta Press',y:1926,note:'Foundational philological work tracing Bengali\'s evolution from Old Indo-Aryan through Apabhraṃśa.'}
-  ],
-  tam:[
-    {a:'Krishnamurti, B.',t:'The Dravidian Languages',s:'Cambridge University Press',y:2003,note:'The definitive comparative grammar of the Dravidian family; establishes Proto-Dravidian reconstruction.'},
-    {a:'Lehmann, T.',t:'A Grammar of Modern Tamil',s:'Pondicherry Institute of Linguistics',y:1989,note:'Standard descriptive grammar of contemporary spoken and written Tamil.'}
-  ],
-  vie:[
-    {a:'Thompson, L. C.',t:'A Vietnamese Grammar',s:'University of Washington Press',y:1965,note:'Classic reference grammar of Vietnamese; covers phonology, tones, and clause structure of the Hanoi dialect.'},
-    {a:'Alves, M. J.',t:'Vietnamese',s:'LINCOM Europa',y:2006,note:'Modern typological description of Vietnamese phonology, morphology, and syntax for comparative linguistics.'}
-  ],
-  ind:[
-    {a:'Sneddon, J. N.',t:'Indonesian: A Comprehensive Grammar',s:'Routledge',y:1996,note:'The most thorough English-language grammar of Indonesian; covers formal, colloquial, and dialectal registers.'},
-    {a:'Adelaar, A. & Himmelmann, N. P. (eds.)',t:'The Austronesian Languages of Asia and Madagascar',s:'Routledge',y:2005,note:'Places Indonesian in its Austronesian context; key reference for comparative and historical linguistics.'}
-  ],
-  tha:[
-    {a:'Noss, R. B.',t:'Thai Reference Grammar',s:'Foreign Service Institute',y:1964,note:'Classic American government-funded reference grammar of Thai; still widely cited for its tonal analysis.'},
-    {a:'Diller, A., Edmondson, J. & Luo, Y. (eds.)',t:'The Tai-Kadai Languages',s:'Routledge',y:2008,note:'Comprehensive comparative survey of the Tai-Kadai family, of which Thai is the most widely spoken member.'}
-  ],
-  pol:[
-    {a:'Swan, O.',t:'A Grammar of Contemporary Polish',s:'Slavica Publishers',y:2002,note:'Standard reference grammar of Polish; covers morphology, syntax, and aspect in detail.'},
-    {a:'Stone, G.',t:'Polish',s:'Routledge',y:1993,note:'Accessible typological description of Polish in the Routledge Descriptive Grammars series.'}
-  ],
-  ces:[
-    {a:'Naughton, J.',t:'Czech: An Essential Grammar',s:'Routledge',y:2005,note:'Practical and reference grammar of contemporary Czech; describes all seven cases with corpus-based examples.'},
-    {a:'Short, D.',t:'Czech',s:'Croom Helm',y:1993,note:'Full typological description of Czech in the Croom Helm Descriptive Grammar series.'}
-  ],
-  hun:[
-    {a:'Rounds, C.',t:'Hungarian: An Essential Grammar',s:'Routledge',y:2009,note:'Concise reference grammar of Hungarian; explains the agglutinative case system for English-speaking learners and linguists.'},
-    {a:'Kenesei, I., Vago, R. M. & Fenyvesi, A.',t:'Hungarian',s:'Routledge',y:1998,note:'Comprehensive descriptive grammar of Hungarian in the Routledge Descriptive Grammars series.'}
-  ],
-  fin:[
-    {a:'Karlsson, F.',t:'Finnish: An Essential Grammar',s:'Routledge',y:2008,note:'Standard concise reference grammar of Finnish; explains all 15 cases and the consonant gradation system.'},
-    {a:'Hakulinen, A. et al.',t:'Iso suomen kielioppi',s:'Finnish Literature Society',y:2004,note:'The largest modern descriptive grammar of Finnish; 1,700 pages; the authoritative academic reference.'}
-  ],
-  swe:[
-    {a:'Holmes, P. & Hinchliffe, I.',t:'Swedish: A Comprehensive Grammar',s:'Routledge',y:2013,note:'Most thorough English-language grammar of Swedish; 3rd edition covers contemporary standard and colloquial usage.'},
-    {a:'Dahl, Ö.',t:'The Growth and Maintenance of Linguistic Complexity',s:'John Benjamins',y:2004,note:'Uses Swedish as a case study for typological complexity; influential in Scandinavian grammatical typology.'}
-  ],
-  nld:[
-    {a:'Donaldson, B.',t:'Dutch: A Comprehensive Grammar',s:'Routledge',y:2008,note:'The standard English-language reference grammar of Dutch; 3rd edition; covers both Dutch and Flemish.'},
-    {a:'Booij, G.',t:'The Morphology of Dutch',s:'Oxford University Press',y:2002,note:'Detailed analysis of Dutch word-formation; key text for morphological typology.'}
-  ],
-  ukr:[
-    {a:'Shevelov, G. Y.',t:'A Historical Phonology of the Ukrainian Language',s:'Shevchenko Scientific Society',y:1979,note:'Definitive phonological history of Ukrainian from Proto-Slavic to the twentieth century.'},
-    {a:'Pugh, S. M. & Press, I.',t:'Ukrainian: A Comprehensive Grammar',s:'Routledge',y:1999,note:'Full descriptive grammar of Ukrainian in the Routledge Descriptive Grammars series.'}
-  ],
-  zul:[
-    {a:'Doke, C. M.',t:'Textbook of Zulu Grammar',s:'Longmans',y:1927,note:'The foundational descriptive grammar of Zulu; established the analytical framework still used for Bantu languages.'},
-    {a:'Canonici, N. N.',t:'Zulu Grammatical Structure',s:'University of Natal',y:1996,note:'Modern update to Zulu grammatical description with attention to tone, noun classes, and verb morphology.'}
-  ],
-  yor:[
-    {a:'Bamgboṣe, A.',t:'A Grammar of Yoruba',s:'Cambridge University Press',y:1966,note:'Classic descriptive grammar of Yoruba establishing its analysis as a tonal, isolating Niger-Congo language.'},
-    {a:'Adesola, O.',t:'Yoruba Pronouns and Null Subjects and Objects',s:'Rutgers University dissertation',y:2005,note:'Influential syntactic study of Yoruba pro-drop and pronoun system within the Minimalist Program.'}
-  ],
-  amh:[
-    {a:'Leslau, W.',t:'Reference Grammar of Amharic',s:'Harrassowitz',y:1995,note:'The definitive reference grammar of Amharic; 1,000+ pages covering all aspects of the language\'s complex morphology.'},
-    {a:'Appleyard, D.',t:'Amharic',s:'Lincom Europa',y:1995,note:'Concise typological description of Amharic for comparative purposes.'}
-  ],
-  msa:[
-    {a:'Sneddon, J. N.',t:'Indonesian: A Comprehensive Grammar',s:'Routledge',y:1996,note:'Though titled for Indonesian, fully applicable to Standard Malay; the two are mutually intelligible standard varieties.'},
-    {a:'Adelaar, A.',t:'Malay: Its History, Role and Spread',s:'Routledge Handbook of World Englishes',y:2005,note:'Overview of Malay\'s spread as a regional lingua franca throughout Southeast Asia.'}
-  ],
-  tgl:[
-    {a:'Schachter, P. & Otanes, F. T.',t:'Tagalog Reference Grammar',s:'University of California Press',y:1972,note:'The standard reference grammar of Tagalog; 600 pages; foundational for Philippine linguistics and voice-system typology.'},
-    {a:'Reid, L. A.',t:'The Expansion of the Austronesian Languages',s:'Oceanic Linguistics',y:1994,note:'Places Tagalog in its Austronesian historical context; traces the migration of Proto-Philippine speakers.'}
-  ],
-};
-
-// ── LANGUAGE SAMPLES — curated quotes/proverbs in native script ──
-const LANG_SAMPLES={
-  eng:{text:"The limits of my language mean the limits of my world.",roman:null,note:"Ludwig Wittgenstein, Tractatus Logico-Philosophicus (1921). English is the world's most widely used lingua franca."},
-  spa:{text:"El que habla dos idiomas, vale por dos.",roman:null,note:"\"One who speaks two languages is worth two people.\" — Spanish proverb. ~500 M native speakers across 20+ countries."},
-  cmn:{text:"学而不思则罔，思而不学则殆",roman:"Xué ér bù sī zé wǎng, sī ér bù xué zé dài",note:"\"To learn without thinking is wasted effort; to think without learning is perilous.\" — Confucius, Analects II.15. The world's most spoken native language."},
-  fra:{text:"Une langue différente est une vision différente de la vie.",roman:null,note:"\"A different language is a different vision of life.\" — Federico Fellini. French is spoken on every inhabited continent."},
-  arb:{text:"اللغة هي وطن الإنسان",roman:"Al-lugha hiya waṭan al-insān",note:"\"Language is the homeland of a person.\" — Arabic saying. Classical Arabic has been relatively unchanged for over 1,400 years."},
-  rus:{text:"Язык — это история народа. Язык — это путь цивилизации и культуры.",roman:"Yazyk — eto istoriya naroda.",note:"\"Language is the history of a people. Language is the path of civilization and culture.\" — Alexander Kuprin."},
-  deu:{text:"Wer fremde Sprachen nicht kennt, weiß nichts von seiner eigenen.",roman:null,note:"\"Those who know no foreign languages know nothing of their own.\" — Johann Wolfgang von Goethe."},
-  por:{text:"A saudade é uma lembrança com asas de melancolia.",roman:null,note:"\"Saudade is a memory with wings of melancholy.\" — Portuguese has a unique word, saudade, with no direct translation in most languages."},
-  hin:{text:"जो बीत गई सो बात गई",roman:"Jo bīt gaī so bāt gaī",note:"\"What has passed is past.\" — Harivansh Rai Bachchan. Hindi is written in Devanagari script and has ~600 M speakers."},
-  jpn:{text:"七転び八起き",roman:"Nana korobi ya oki",note:"\"Fall seven times, get up eight.\" — Japanese proverb. Japanese uses three scripts simultaneously: Kanji, Hiragana, and Katakana."},
-  kor:{text:"가는 말이 고와야 오는 말이 곱다",roman:"Ganeun mari gowaya oneun mari gopda",note:"\"For kind words to come back, kind words must first go out.\" — Korean proverb. Korean has an elaborate honorific system."},
-  tur:{text:"Bir dil bir insan, iki dil iki insan.",roman:null,note:"\"One language one person, two languages two people.\" — Turkish proverb. Turkish is agglutinative: a single word can form a complete sentence."},
-  swa:{text:"Haraka haraka haina baraka.",roman:null,note:"\"Hurry hurry has no blessing.\" — Swahili proverb. Swahili is the most widely spoken African language and a UN official language."},
-  ell:{text:"Γνῶθι σεαυτόν",roman:"Gnōthi seautón",note:"\"Know thyself.\" — Inscribed at the Temple of Apollo at Delphi. Greek has the longest documented history of any living language (~3,400 years)."},
-  lat:{text:"Dum spiro, spero.",roman:null,note:"\"While I breathe, I hope.\" — Latin proverb attributed to Cicero. Latin is the foundation of all Romance languages."},
-  heb:{text:"תיקון עולם",roman:"Tikkun Olam",note:"\"Repairing the world\" — a central concept in Jewish thought. Hebrew is one of the few languages ever successfully revived as a native tongue."},
-  fas:{text:"بشنو این نی چون شکایت می‌کند",roman:"Beshno in ney chon shekaayat mikonad",note:"\"Listen to this reed, how it tells tales of separations.\" — Rumi, Masnavi (c. 1258). Persian poetry shaped literature from Turkey to India."},
-  ben:{text:"আমার ভাষা, আমার গর্ব",roman:"Amar bhasha, amar gorbo",note:"\"My language, my pride.\" — The Bengali language movement of 1952 in Bangladesh inspired UNESCO's International Mother Language Day (Feb 21)."},
-  tam:{text:"யாதும் ஊரே யாவரும் கேளிர்",roman:"Yādum ūrē yāvarum kēḷir",note:"\"Every place is our homeland; all people are our kin.\" — Kaniyan Pungundranar, 5th century CE. Tamil is one of the world's oldest classical languages."},
-  vie:{text:"Học, học nữa, học mãi.",roman:null,note:"\"Study, study more, study forever.\" — Vietnamese proverb. Vietnamese uses a Latin-based alphabet with six tones that change word meaning entirely."},
-  ind:{text:"Bahasa menunjukkan bangsa.",roman:null,note:"\"Language shows the nation.\" — Malay-Indonesian proverb. Indonesian (Bahasa Indonesia) is spoken as a second language by over 200 M people."},
-  tha:{text:"น้ำพึ่งเรือ เสือพึ่งป่า",roman:"Nám phúeng ruea, suea phúeng paa",note:"\"Water depends on the boat, the tiger depends on the forest.\" — Thai proverb about interdependence. Thai has 5 tones and 44 consonants."},
-  pol:{text:"Nie ma róży bez kolców.",roman:null,note:"\"There's no rose without thorns.\" — Polish proverb. Polish has 7 grammatical cases and is considered one of the most complex languages for English speakers."},
-  ukr:{text:"Мова — душа народу.",roman:"Mova — dusha narodu",note:"\"Language is the soul of a people.\" — Ukrainian saying. Ukrainian uses the Cyrillic alphabet with unique letters not found in Russian."},
-  ces:{text:"Bez práce nejsou koláče.",roman:null,note:"\"Without work, there are no cakes.\" — Czech proverb. Czech has 7 grammatical cases and the infamous tongue-twister \"Strč prst skrz krk\"."},
-  hun:{text:"Annyi ember vagy, ahány nyelvet beszélsz.",roman:null,note:"\"You are as many people as the languages you speak.\" — Hungarian proverb. Hungarian has 18 grammatical cases and 14 vowel sounds."},
-  fin:{text:"Ei se koira pure, joka haukkuu.",roman:null,note:"\"The dog that barks doesn't bite.\" — Finnish proverb. Finnish has 15 grammatical cases and no articles, prepositions, or future tense."},
-  swe:{text:"Lagom är bäst.",roman:null,note:"\"Just the right amount is best.\" — The Swedish concept of lagom (moderation/balance) has no direct English equivalent."},
-  nld:{text:"Al doende leert men.",roman:null,note:"\"By doing, one learns.\" — Dutch proverb. Dutch is the closest living language to English and helped shape Afrikaans and Afrikaner culture."},
-  zul:{text:"Umuntu ngumuntu ngabantu",roman:null,note:"\"A person is a person through other people.\" — Zulu Ubuntu philosophy, a cornerstone of Southern African thought. Zulu has click consonants borrowed from Khoisan languages."},
-  yor:{text:"Ọrọ búburú ń mú aiyé bàjẹ́",roman:null,note:"\"Bad words corrupt the world.\" — Yoruba proverb. Yoruba is a tonal language with 3 tones and ~40 M speakers in Nigeria."},
-  amh:{text:"ቋንቋ ያንድ ህዝብ ነፍስ ነው",roman:"Qwanqa ya'and hezb nefs newu",note:"\"Language is the soul of a people.\" — Amharic saying. Amharic is written in Ge'ez (Ethiopic) script, one of the world's oldest writing systems."},
-  msa:{text:"Bahasa jiwa bangsa.",roman:null,note:"\"Language is the soul of a nation.\" — Malay national motto. Malay/Indonesian is the lingua franca of Southeast Asia, spoken by ~290 M people."},
-  tgl:{text:"Ang hindi marunong lumingon sa pinanggalingan ay hindi makararating sa paroroonan.",roman:null,note:"\"One who does not look back at where they came from will not reach their destination.\" — José Rizal. Tagalog is the basis of Filipino, the national language of the Philippines."},
-  kaz:{text:"Тіл — халықтың жаны",roman:"Til — khalyqtyn zhany",note:"\"Language is the soul of a people.\" — Kazakh saying. Kazakh is transitioning from Cyrillic to a Latin-based script since 2017."},
-  cat:{text:"Qui no sap llegues, no sap res.",roman:null,note:"\"He who doesn't know languages, knows nothing.\" — Catalan proverb. Catalan is spoken by ~10 M people and co-official in Catalonia, Valencia, and the Balearic Islands."},
-  nob:{text:"Det er ikke gull alt som glimrer.",roman:null,note:"\"All that glitters is not gold.\" — Norwegian proverb. Norwegian has two written standards: Bokmål and Nynorsk."},
-  isl:{text:"Þeir eru gleðilegir sem gleyma.",roman:"Þeir eru gleðilegir sem gleyma",note:"\"Happy are those who forget.\" — Icelandic proverb. Icelandic has changed so little that modern speakers can read 800-year-old sagas with little difficulty."},
-  mri:{text:"Ko tōku reo, ko tōku ohooho.",roman:null,note:"\"My language is my awakening.\" — Māori proverb. Māori is a Polynesian language and one of New Zealand's three official languages."},
-  wol:{text:"Nit, nit mooy garabam.",roman:null,note:"\"It is the human being who is the remedy for another.\" — Wolof proverb. Wolof is the dominant language of Senegal and influenced Louisiana Creole."},
-  // ── TURKIC FAMILY ──
-  azj:{text:"Dil millətin canıdır.",roman:null,note:"\"Language is the soul of the nation.\" — Azerbaijani saying. Azerbaijani is the official language of Azerbaijan and has ~35 M speakers across the South Caucasus and northern Iran."},
-  uzb:{text:"Til — millatning ko'zgusi.",roman:null,note:"\"Language is the mirror of a nation.\" — Uzbek proverb. Uzbek is the most widely spoken Karluk-branch Turkic language and official language of Uzbekistan."},
-  kir:{text:"Тил — элдин байлыгы.",roman:"Til — eldin baylyghy",note:"\"Language is the nation's wealth.\" — Kyrgyz proverb. Kyrgyz is famous for the Manas epic — one of the world's longest oral epics, with some versions exceeding 500,000 lines."},
-  tuk:{text:"Adam jahy — dil bilen.",roman:null,note:"\"A person is known by their language.\" — Turkmen proverb. Turkmen retains a remarkably conservative vowel system among Oghuz Turkic languages."},
-  tat:{text:"Тел — халыкның зирәк тарихы.",roman:"Tel — khalyqnyng ziräk tarikhy",note:"\"Language is the wise history of a people.\" — Tatar saying. Tatar is the most widely spoken Kipchak Turkic language; it has been written in Arabic, Latin, and Cyrillic scripts across its history."},
-  bak:{text:"Тел — халыҡтың йәне.",roman:"Tel — khalyqtyng yänе",note:"\"Language is the soul of the people.\" — Bashkir saying. Bashkir is closely related to Tatar but is phonologically distinct, with unique pharyngeal-like consonants among Turkic languages."},
-  uig:{text:"تىل — مىللەتنىڭ جېنى.",roman:"Til — millätning jéni",note:"\"Language is the soul of the nation.\" — Uyghur saying. Uyghur is written in a Perso-Arabic script from right to left and has a rich classical literary tradition linked to Chagatai Turkic."},
-  chv:{text:"Чĕлхе — халăх тинĕсĕ.",roman:"Çĕlhe — halăh tinĕsĕ",note:"\"Language is the sea of the people.\" — Chuvash saying. Chuvash is the only living descendant of the ancient Oghur (Bulgar) branch of Turkic — making it the most divergent Turkic language, with up to 40% non-cognate vocabulary compared to other branches."},
-  sah:{text:"Тыл — олох дьиҥинэ.",roman:"Tyl — olokh d'inginе",note:"\"Language is the essence of life.\" — Yakut (Sakha) saying. Yakut is the most geographically isolated Turkic language, spoken in northeastern Siberia, and has borrowed heavily from Mongolic and Tungusic languages through millennia of contact."},
-  crh:{text:"Tіl — milletniñ özegі.",roman:null,note:"\"Language is the core of the nation.\" — Crimean Tatar saying. Crimean Tatar is a Kipchak language with strong Oghuz and Oghur substrate features — reflecting centuries of contact with Ottoman Turkish and the ancient Khazar state."},
-  kum:{text:"Тил — халкъны жаны.",roman:"Til — halqny zhany",note:"\"Language is the soul of the people.\" — Kumyk proverb. Kumyk was historically the lingua franca of the eastern Caucasus and Dagestan until the 20th century."},
-  kaa:{text:"Tіl — xalıqtıń jany.",roman:null,note:"\"Language is the soul of the people.\" — Karakalpak saying. Karakalpak is spoken in Karakalpakstan (Uzbekistan) near the Aral Sea; its speakers have faced significant environmental displacement."},
-  tyv:{text:"Тыва дыл — тываларның өнчүзү.",roman:"Tyva dyl — tyvalarnyng öncüzü",note:"\"The Tuvan language is the heritage of Tuvans.\" — Tuvan saying. Tuvan is notable among Turkic languages for its use of throat-singing (khoomei/xöömei) as a central cultural practice tied to language and identity."},
-};
-
-// ── SIMILAR LANGUAGES ──
-function getSimilarLangs(id,n=3){
-  const lang=getLang(id);if(!lang)return[];
-  const combined={};
-  if(typeof INTELLIGIBILITY_EDGES!=='undefined'){
-    INTELLIGIBILITY_EDGES.filter(e=>e.source===id||e.target===id).forEach(e=>{
-      const othId=e.source===id?e.target:e.source;
-      const score=e.source===id?e.score:e.reverse;
-      combined[othId]=(combined[othId]||0)+score*2;// weight intelligibility higher
-    });
-  }
-  const features=[{key:'wordOrder',w:15},{key:'morphType',w:15},{key:'caseAlignment',w:12},{key:'toneSystem',w:10},{key:'genderSystem',w:8},{key:'evidentiality',w:5}];
-  getAllLangs().filter(l=>l.id!==id&&!l.isExtinct).forEach(oth=>{
-    let sc=0,tot=0;
-    features.forEach(f=>{if(lang[f.key]&&oth[f.key]){tot+=f.w;if(lang[f.key]===oth[f.key])sc+=f.w;}});
-    if(tot>0)combined[oth.id]=(combined[oth.id]||0)+(sc/tot);
-  });
-  return Object.entries(combined).filter(([oid])=>getLang(oid)).sort((a,b)=>b[1]-a[1]).slice(0,n).map(([oid,score])=>({lang:getLang(oid),score:Math.min(score/3,1)}));
-}
-
 // ── BOOT ──
 document.addEventListener('DOMContentLoaded',()=>{
-  // Re-restore Leaflet — GoDaddy may inject between script exec and DOMContentLoaded
-  if(window.__GF_L&&typeof window.__GF_L.map==='function')window.L=window.__GF_L;
-  console.log('[GF] DOMContentLoaded — typeof L:',typeof L,typeof L!=='undefined'?typeof L.map:'n/a');
   initMap();
   if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 });
 </script>
 
-<!-- Forge Network footer -->
-<div style="position:fixed;bottom:0;left:50%;transform:translateX(-50%);z-index:600;pointer-events:none;display:flex;justify-content:center;width:100%">
-</div>
-<div class="forge-network" style="position:fixed;bottom:60px;left:12px;z-index:490;background:rgba(13,13,24,0.88);backdrop-filter:blur(12px);border:1px solid var(--border2);border-radius:var(--r-full);padding:7px 14px;pointer-events:auto">
-  <a href="https://ayter.com" class="forge-net-home" style="font-family:var(--font-b);font-size:.82rem">ayter.com</a>
-  <div class="forge-net-sep"></div>
-  <div class="forge-net-links">
-    <a href="/muscleforge" class="forge-net-link">🏋️</a>
-    <a href="/signforge" class="forge-net-link">🤟</a>
-    <a href="/scrobbleforge/" class="forge-net-link">🎵</a>
-    <a href="/audioforge" class="forge-net-link">🎙️</a>
+<!-- Forge Network -->
+<div class="fgn-fab">
+  <div class="fgn-panel" id="fgnPanel">
+    <div class="fgn-panel-head">
+      <span class="fgn-panel-title">The Network</span>
+      <button class="fgn-panel-close" onclick="closeFgnPanel()" aria-label="Close">✕</button>
+    </div>
+    <div class="fgn-grid">
+      <a href="/rosetta/" class="fgn-item fgn-item--active" style="--fgn-grad:linear-gradient(135deg,#00d4ff,#00d4ff66);box-shadow:0 0 14px #00d4ff1a" aria-current="page"><span class="fgn-name" style="color:#00d4ff">Rosetta</span><span class="fgn-desc">language atlas</span></a>
+      <a href="/iron/" class="fgn-item"><span class="fgn-name">Iron</span><span class="fgn-desc">training &amp; anatomy</span></a>
+      <a href="/reverie/" class="fgn-item"><span class="fgn-name">Reverie</span><span class="fgn-desc">meditation &amp; breath</span></a>
+      <a href="/nous/" class="fgn-item"><span class="fgn-name">Nous</span><span class="fgn-desc">cognitive wellness</span></a>
+      <a href="/vault/" class="fgn-item"><span class="fgn-name">Vault</span><span class="fgn-desc">arcade games</span></a>
+      <a href="/semaphore/" class="fgn-item"><span class="fgn-name">Semaphore</span><span class="fgn-desc">sign language AI</span></a>
+      <a href="/cadence/" class="fgn-item"><span class="fgn-name">Cadence</span><span class="fgn-desc">music tracking</span></a>
+      <a href="/timbre/" class="fgn-item"><span class="fgn-name">Timbre</span><span class="fgn-desc">audio &amp; vowels</span></a>
+      <a href="/cipher/" class="fgn-item"><span class="fgn-name">Cipher</span><span class="fgn-desc">EN ↔ TR</span></a>
+    </div>
   </div>
+  <button class="fgn-fab-btn" onclick="toggleFgnPanel()" aria-expanded="false" id="fgnFabBtn">
+    <span class="fgn-fab-dot"></span>
+    Network
+  </button>
 </div>
+<script>
+function toggleFgnPanel(){const p=document.getElementById('fgnPanel'),b=document.getElementById('fgnFabBtn');const open=p.classList.toggle('fgn-panel--open');b.setAttribute('aria-expanded',String(open))}
+function closeFgnPanel(){document.getElementById('fgnPanel').classList.remove('fgn-panel--open');document.getElementById('fgnFabBtn').setAttribute('aria-expanded','false')}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeFgnPanel()})
+</script>
 </body>
 </html>
